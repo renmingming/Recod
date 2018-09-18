@@ -25,3 +25,19 @@
     deep: true
   }
   ```
+
+2、vue中组件重新加载：
+  ```
+  <router-view v-if="isRouterAlive">
+  -------------------------------------
+  data() {
+    return {isRouterAlive: true}
+  }
+  // methods中
+  reload() {
+    this.isRouterAlive = false;
+    this.$nextTick(() => {
+      this.isRouterAlive = true;
+    })
+  }
+  ```
