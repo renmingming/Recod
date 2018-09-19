@@ -19,6 +19,19 @@
   // x被替换字符，y替换新的字符
   str.replace(/x/g,'y')
   ```
+4、判断方法：给数组索引index + 1，不能溢出>数组length，与索引index - 1，不能小于 0
+
+  ```
+  let arr = [x,x,x,x,x];
+  let index = x ; // 获取当前的index值
+  let newIndex = null; // 新index;
+  let arrLenth = arr.length;
+  // index + 1的判断
+  newIndex = (index + 1) % arrLenth;
+  // index - 1的判断 防止index为0，出现负数
+  newInde = (index - 1 + arrLenth) % arrLenth;
+  ```
+
 
 ## vue常遇问题
 
