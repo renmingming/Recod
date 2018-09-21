@@ -78,3 +78,36 @@
           // 代码
         })
       ```
+
+## React记录
+
+1、生命周期
+
+  ```
+    componentWillMount() {
+        // render 之前
+        console.log('will mount')
+    }
+    componentDidMount() {
+        // render之后，不回立即调用，所有子组件都render之后
+        console.log('did mount')
+    }
+    componentWillReceiveProps(newProps) {
+        // 组件传值是调用
+        console.log('will props' + newProps.name)
+    }
+    // 修改render之后update都会触发
+    shouldComponentUpdate() {
+        console.log('should update')
+        return true;
+    }
+    componentWillUpdate() {
+        console.log('will update')
+    }
+    componentDidUpdate() {
+        console.log('did update')
+    }
+    render() {}
+  ```
+
+
