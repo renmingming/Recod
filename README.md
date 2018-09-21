@@ -36,6 +36,17 @@
   
   浏览器在加载网页时对网页中的域名进行解析缓存，这样在点击当前网页中的链接时就无需进行DNS解析，减少等待时间，DNS解析，需要用域名解析匹配IP，这个需要时间，加了dns-prefetch，浏览器就回缓存这个解析，直接请求，不需要在dns解析了
 
+6、导航递归
+
+  ```
+  renderMenu = (data) => {
+    return data.map((item) => {
+      if(item.children) { // 判断是否还有子菜单
+        return this.renderMenu(item.children)
+      }
+    })
+  }
+  ```
 
 ## vue常遇问题
 
