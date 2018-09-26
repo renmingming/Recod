@@ -50,6 +50,18 @@
     })
   }
   ```
+  
+  7、字典：
+  
+    ```
+      let config = {
+        "a": "renming",
+        "b": "mingming",
+        "c": "renmingming"
+      }
+      
+      config[a]
+    ```
 
 ## vue常遇问题
 
