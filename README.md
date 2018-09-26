@@ -120,5 +120,18 @@
     }
     render() {}
   ```
+  
+  2、在事件使用箭头函数并要传参数时如下使用：
+  
+     ```
+       handle = (id) => {
+        // 代码
+       }
+       render() {
+        return (
+          <div onClick={() => this.handle(id)}></div>
+        )
+       }
+     ```
 
 
