@@ -1,7 +1,10 @@
 # Recod
 
 ## 实用插件
-1、js精度计算插件：**BigNumber.js**
+  1、js精度计算插件：**BigNumber.js**
+
+  2、数据模拟工具：
+      Easy Mock + mock.js
 
 ## 实用代码
 1、移动适配代码：
