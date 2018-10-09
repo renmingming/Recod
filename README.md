@@ -70,6 +70,8 @@
 
 8、权限设计模式：**rbac模式**
 
+9、文字渐变：**背景渐变加-webkit-background-clip:text**
+
 ## vue常遇问题
 
 1、监听对象中的某个属性：
