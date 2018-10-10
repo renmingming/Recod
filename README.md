@@ -160,4 +160,6 @@
      
 3、在创建编辑功能中(同一个表单)使用antd的form时，在创建提交成功之后要重置表单：this.props.from.resetFields()，不然编辑时数据为创建时的数据
 
+4、在react+antd中使用less修改antd主题，使用less的2.7.3以前版本
+
 
