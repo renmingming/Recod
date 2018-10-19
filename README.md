@@ -117,6 +117,11 @@
         })
       ```
 
+4、flow：javascript静态类型检查工具
+     如Vue: Class<Component> 和 const vm: Component = this
+     
+     
+     
 ## React记录
 
 1、生命周期
