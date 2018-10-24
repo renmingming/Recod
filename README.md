@@ -75,6 +75,20 @@
 
 9、文字渐变：**背景渐变加-webkit-background-clip:text**
 
+10、通过rel="preload"进行内容预加载：如下
+
+```
+<link rel="preload" href="style.css" as="style">
+<link rel="preload" href="main.js" as="script">
+<link rel="preload" href="sintel-short.mp4" as="video" type="video/mp4">
+<link rel="preload" href="bg-image-narrow.png" as="image" media="(max-width: 600px)">
+// crossorigin="anonymous" 跨域，字体必须
+<link rel="preload" href="fonts/cicle_fina-webfont.woff" as="font" type="font/woff" crossorigin="anonymous">
+```
+
+在其他地方使用就可以了
+
+
 ## vue常遇问题
 
 1、监听对象中的某个属性：
