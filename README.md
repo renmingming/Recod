@@ -88,6 +88,18 @@
 
 在其他地方使用就可以了
 
+11、img srcset 属性：image-set()支持根据用户分辨率适配图像。
+
+```
+
+<img src="source.jpg" srcset="source_2x.jpg 2x, source_3x.jpg 3x">
+<img src="source.jpg" srcset="source_400.jpg 400w, source_1280.jpg 1280w">
+// 视口为 320px 时图片宽度为 300px，其他情况为 1200px。
+<img src="images/gun.png" sizes="(max-width: 320px) 300w, 1200w"/>
+background-image: image-set( url(../images/pic-1.jpg) 1x, url(../images/pic-2.jpg) 2x, url(../images/pic-3.jpg) 600dpi);
+
+```
+
 
 ## vue常遇问题
 
