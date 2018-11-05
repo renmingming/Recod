@@ -122,6 +122,7 @@ console.log(str instanceof Object) // true;
 console.log(arr instanceof Array) // true;
 console.log(arr instanceof Object) // false;
 ```
+也可以使用**Objec.prototype.toString.call(arr) == [object Array]**
 
 
 
