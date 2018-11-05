@@ -125,6 +125,16 @@ console.log(arr instanceof Object) // false;
 也可以使用**Objec.prototype.toString.call(arr) == [object Array]**
 
 
+14、使用正则对字符串中的数字进行操作
+```
+var str = 'sdkf34lk00j234l23k4';
+var newStr = str.replace(//g,function(){
+     return "["+arguments[0]+"]"; 
+})
+newStr // sdkf[34]lk[00]j[234]l[23]k[4]
+```
+
+
 
 
 ## vue常遇问题
