@@ -101,6 +101,11 @@ background-image: image-set( url(../images/pic-1.jpg) 1x, url(../images/pic-2.jp
 ```
 
 
+12、查看属性是否是对象自身下的属性，而不是原型上的: **hasOwnProperty**
+
+
+
+
 ## vue常遇问题
 
 1、监听对象中的某个属性：
