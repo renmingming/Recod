@@ -107,6 +107,24 @@ background-image: image-set( url(../images/pic-1.jpg) 1x, url(../images/pic-2.jp
 
 
 
+13、**instanceof** 对象于构造函数在原型上是否有关系
+```
+function obj (){}
+var str1 = new obj();
+console.log(str1 instanceof obj) // true;
+```
+
+也可以使用instanceof做类型判断
+```
+var str = '';
+var arr = [];
+console.log(str instanceof Object) // true;
+console.log(arr instanceof Array) // true;
+console.log(arr instanceof Object) // false;
+```
+
+
+
 
 ## vue常遇问题
 
