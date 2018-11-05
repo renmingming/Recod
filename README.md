@@ -103,6 +103,8 @@ background-image: image-set( url(../images/pic-1.jpg) 1x, url(../images/pic-2.jp
 
 12、查看属性是否是对象自身下的属性，而不是原型上的: **hasOwnProperty**
 
+非系统生产的属性可以使用for in找到
+
 
 
 
