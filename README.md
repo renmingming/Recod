@@ -151,6 +151,25 @@ Object.defineProperty(data, 'b', {
      }
 })
  ```
+ 
+ 16、节流函数
+ 
+ ```
+ // func需要执行的方法，wait不重复执行该方法的时间
+ function throttle(func, wait) {
+    let lastTime = null;
+    return function() {
+        let now = new Date();
+        if (now - lastTime - wait > 0) {
+            func();
+            lastTime = now;
+        }
+    }
+}
+let throttleRun = throttle(() => {
+    console.log(123);
+}, 0);
+ ```
 
 
 
