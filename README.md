@@ -137,6 +137,21 @@ var newStr = str.replace(//g,function(){
 newStr // sdkf[34]lk[00]j[234]l[23]k[4]
 ```
 
+15、Object.defineProperty 属性变化监听
+
+```
+Object.defineProperty(data, 'b', {
+     set: function(newValue) {
+          // 当data.b的直改变时，更新#test视图
+          var view = document.getElementById('test');
+          view.textContent = newValue;
+     },
+     get: function() {
+
+     }
+})
+ ```
+
 
 
 
