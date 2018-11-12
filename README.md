@@ -262,6 +262,33 @@ let throttleRun = throttle(() => {
      如Vue: Class<Component> 和 const vm: Component = this
      
      
+### nuxt问题记录
+
+1、第三方插件/js引入，报window/navigator等 is not defined
+
+因为在服务端获取不到window对象，可以设置使这些文件在服务端使不引入，如下：
+在plugins目录下新建文件如：cookie.js
+```
+     import Vue from 'vue'
+     import VueCookie from 'vue-cookie'
+     Vue.use(VueCookie)
+``` 
+或者jsencrypt.js
+```
+    import JSEncrypt from 'jsencrypt'
+    window.JSEncrypt = JSEncrypt;
+```
+然后在nuxt.config.js中的plugins项中添加
+```
+    [{
+          src: '~plugins/jsencrypt.js',
+          ssr: false
+    },{
+          src: '~plugins/cookie.js',
+          ssr: false
+    }]
+
+```
      
 ## React记录
 
