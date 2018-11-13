@@ -213,6 +213,16 @@ let throttleRun = throttle(() => {
 }
 ```
 
+18、使用contenteditable模拟input输入，换行光标不再末尾，而显示在开始位置
+做一下处理
+
+```
+在需要的地方使用，content是获取焦点的元素
+var range = window.getSelection(); //创建range
+range.selectAllChildren(content); //range 选择obj下所有子内容
+range.collapseToEnd(); //光标移至最后
+          
+```
 
 
 
