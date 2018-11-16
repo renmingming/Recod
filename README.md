@@ -271,6 +271,16 @@ range.collapseToEnd(); //光标移至最后
 4、flow：javascript静态类型检查工具
      如Vue: Class<Component> 和 const vm: Component = this
      
+6、向数组里添加新的元素，视图并更新，**向第一位添加问题**
+     
+    ```
+    // 向数组第一位添加可行
+    arr.splice(0,0,newArr)
+    // 向后添加使用
+    this.$set(arr,key, val)
+    ```
+     
+     
      
 ### nuxt问题记录
 
