@@ -14,6 +14,11 @@
 5、根据链接生产二维码： **jr-qrcode**
 
 
+6、防止xss攻击：**js-xss**
+
+
+
+
 ## 实用代码
 1、移动适配代码：
   ```
@@ -224,6 +229,10 @@ range.collapseToEnd(); //光标移至最后
           
 ```
 
+19、防止xss攻击：如（输入框输入<script>alert('123')</script>,被执行,可使用下插件
+
+**https://github.com/leizongmin/js-xss/blob/master/README.zh.md**
+
 
 
 ## vue常遇问题
@@ -279,6 +288,9 @@ range.collapseToEnd(); //光标移至最后
     // 向后添加使用
     this.$set(arr,key, val)
     ```
+    
+7、vue中v-for=“(item,index) in arr”循环下使用index，去改变data中的属性时，会报一下错误：
+**You may have an infinite update loop in a component render function**
      
      
      
