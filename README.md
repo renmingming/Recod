@@ -291,6 +291,7 @@ range.collapseToEnd(); //光标移至最后
     
 7、vue中v-for=“(item,index) in arr”循环下使用index，去改变data中的属性时，会报一下错误：
 **You may have an infinite update loop in a component render function**
+可以data
      
      
      
