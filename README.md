@@ -233,6 +233,22 @@ range.collapseToEnd(); //光标移至最后
 
 **https://github.com/leizongmin/js-xss/blob/master/README.zh.md**
 
+20、获取光标位置
+     ```
+    let range = window.getSelection().getRangeAt(0);
+    let Dleft = range.getBoundingClientRect().x;
+    let Dtop = range.getBoundingClientRect().y;
+   ```
+   
+21、光标定位到最后一位
+     ```
+     selectionToEnd(el) {
+      let range = window.getSelection(); //创建range
+      range.selectAllChildren(el); //range 选择obj下所有子内容
+      range.collapseToEnd(); //光标移至最后
+    },
+    ```
+
 
 
 ## vue常遇问题
