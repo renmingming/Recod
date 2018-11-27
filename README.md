@@ -248,6 +248,42 @@ range.collapseToEnd(); //光标移至最后
       range.collapseToEnd(); //光标移至最后
     },
     ```
+    
+22、深拷贝
+```
+// 深拷贝
+	deepClone(obj) {
+		let objClone = Array.isArray(obj) ? [] : {};
+		if (obj && typeof obj === "object") {
+			let key;
+			for (key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					//判断ojb子元素是否为对象，如果是，递归复制
+					if (obj[key] && typeof obj[key] === "object") {
+						objClone[key] = this.deepClone(obj[key]);
+					} else {
+						//如果不是，简单复制
+						objClone[key] = obj[key];
+					}
+				}
+			}
+		}
+		return objClone;
+	}
+     deepClone(obj){
+         let _obj = JSON.stringify(obj),
+             objClone = JSON.parse(_obj);
+         return objClone
+     }
+     
+```
+
+23、localStorage/sessionStorage使用JSON.parse存取数组
+```
+let gChat = sessionStorage.setItem("groupsChat"); //localStorage
+let groupChat = JSON.parse(gChat) || []; // 取出来的可以是数组
+存之前JSON.stringify(groupChat)
+```
 
 
 
@@ -308,6 +344,9 @@ range.collapseToEnd(); //光标移至最后
 7、vue中v-for=“(item,index) in arr”循环下使用index，去改变data中的属性时，会报一下错误：
 **You may have an infinite update loop in a component render function**
 可以data
+
+
+8、在给变量赋值vuex中的对象时，要注意深拷贝，以免对赋值之后的变量操作，改变了vuex中的数据
      
      
      
