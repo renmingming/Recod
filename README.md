@@ -313,6 +313,10 @@ range.collapseToEnd(); //光标移至最后
 ```
 
 
+25、路由地址中的参数携带&等一些于url有冲突：参数使用**encodeURIComponent**包括
+
+
+
 
 ## vue常遇问题
 
