@@ -285,6 +285,25 @@ let groupChat = JSON.parse(gChat) || []; // 取出来的可以是数组
 存之前JSON.stringify(groupChat)
 ```
 
+24、获取剪贴板内容
+
+```
+dom.addEventListener('paste', function(e){
+	// e.clipboardData.getData('Text') // 复制的文字
+	// 图片文件等
+	if ( !(e.clipboardData && e.clipboardData.items) ) {
+            return ;
+        }
+        for (var i = 0, len = e.clipboardData.items.length; i < len; i++) {
+            var item = e.clipboardData.items[i];
+            if (item.kind === "file" && item.type.indexOf('image') >= 0) {
+                var pasteFile = item.getAsFile();
+                // pasteFile就是获取到的文件
+            }
+        }
+})
+```
+
 
 
 ## vue常遇问题
