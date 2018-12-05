@@ -231,27 +231,33 @@ range.collapseToEnd(); //光标移至最后
 
 19、防止xss攻击：如（输入框输入<script>alert('123')</script>,被执行,可使用下插件
 
-**https://github.com/leizongmin/js-xss/blob/master/README.zh.md**
+
 
 20、获取光标位置
-     ```
+
+
+```
     let range = window.getSelection().getRangeAt(0);
     let Dleft = range.getBoundingClientRect().x;
     let Dtop = range.getBoundingClientRect().y;
-   ```
-   
+```
+
+
 21、光标定位到最后一位
-     ```
+
+```
      selectionToEnd(el) {
       let range = window.getSelection(); //创建range
       range.selectAllChildren(el); //range 选择obj下所有子内容
       range.collapseToEnd(); //光标移至最后
     },
-    ```
-    
-22、深拷贝
 ```
-// 深拷贝
+
+
+22、深拷贝
+
+```
+	// 深拷贝
 	deepClone(obj) {
 		let objClone = Array.isArray(obj) ? [] : {};
 		if (obj && typeof obj === "object") {
@@ -278,30 +284,32 @@ range.collapseToEnd(); //光标移至最后
      
 ```
 
+
 23、localStorage/sessionStorage使用JSON.parse存取数组
+
 ```
-let gChat = sessionStorage.setItem("groupsChat"); //localStorage
-let groupChat = JSON.parse(gChat) || []; // 取出来的可以是数组
-存之前JSON.stringify(groupChat)
+	let gChat = sessionStorage.setItem("groupsChat"); //localStorage
+	let groupChat = JSON.parse(gChat) || []; // 取出来的可以是数组
+	存之前JSON.stringify(groupChat)
 ```
 
 24、获取剪贴板内容
 
 ```
-dom.addEventListener('paste', function(e){
-	// e.clipboardData.getData('Text') // 复制的文字
-	// 图片文件等
-	if ( !(e.clipboardData && e.clipboardData.items) ) {
-            return ;
-        }
-        for (var i = 0, len = e.clipboardData.items.length; i < len; i++) {
-            var item = e.clipboardData.items[i];
-            if (item.kind === "file" && item.type.indexOf('image') >= 0) {
-                var pasteFile = item.getAsFile();
-                // pasteFile就是获取到的文件
-            }
-        }
-})
+	dom.addEventListener('paste', function(e){
+		// e.clipboardData.getData('Text') // 复制的文字
+		// 图片文件等
+		if ( !(e.clipboardData && e.clipboardData.items) ) {
+		    return ;
+		}
+		for (var i = 0, len = e.clipboardData.items.length; i < len; i++) {
+		    var item = e.clipboardData.items[i];
+		    if (item.kind === "file" && item.type.indexOf('image') >= 0) {
+			var pasteFile = item.getAsFile();
+			// pasteFile就是获取到的文件
+		    }
+		}
+	})
 ```
 
 
