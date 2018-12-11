@@ -315,6 +315,8 @@ range.collapseToEnd(); //光标移至最后
 
 25、路由地址中的参数携带&等一些于url有冲突：参数使用**encodeURIComponent**包括
 
+25、返回字符串中带有换行符'↵'，在不使用v-html的情况下，使其保持换行使用css属性：**white-space：pre-line/pre-wrap**
+
 
 
 
