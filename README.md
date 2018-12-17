@@ -317,6 +317,14 @@ range.collapseToEnd(); //光标移至最后
 
 25、返回字符串中带有换行符'↵'，在不使用v-html的情况下，使其保持换行使用css属性：**white-space：pre-line/pre-wrap**
 
+26、return、break、continue ---容易出错---
+	
+	return:跳出当前方法；
+	
+	break:结束当前循环，继续执行循环体外的下面的代码；
+	
+	continue: 结束本次循环，继续执行下次循环；
+
 
 
 
