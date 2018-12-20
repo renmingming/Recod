@@ -390,6 +390,8 @@ range.collapseToEnd(); //光标移至最后
 
 
 8、在给变量赋值vuex中的对象时，要注意深拷贝，以免对赋值之后的变量操作，改变了vuex中的数据
+
+9、本地测试无法定位到源代码位置，修改config中build的devtool为**#source-map**
      
      
      
