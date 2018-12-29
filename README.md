@@ -327,7 +327,25 @@ range.collapseToEnd(); //光标移至最后
 	
 	continue: 结束本次循环，继续执行下次循环；
 
+27、判断对象是否相等
 
+```
+	function isObjectValueEqual(a,b){
+		var aProps = Object.getOwnPropertyNames(a);
+		var bProps = Object.getOwnPropertyNames(b);
+		
+		if(aProps.length != bProps.length) {
+			return false;
+		}
+		for(var i = 0; i< aProps.length; i++) {
+			var propName = aProps[i];
+			if(a[propName] !== b[propName]){
+				return false;
+			}
+		}
+		return true;
+	}
+```
 
 
 ## vue常遇问题
