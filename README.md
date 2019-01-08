@@ -348,7 +348,9 @@ range.collapseToEnd(); //光标移至最后
 ```
 
 28、video标签层级问题，video播放时层级最高：
-	```
+
+```
+	
 	controls="controls"
 
 	x5-playsinline=""
@@ -364,7 +366,8 @@ range.collapseToEnd(); //光标移至最后
 	x5-video-player-fullscreen=""
 
 	x5-video-orientation="portraint"
-	```
+	
+```
 
 
 ## vue常遇问题
