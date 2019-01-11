@@ -434,6 +434,30 @@ range.collapseToEnd(); //光标移至最后
 8、在给变量赋值vuex中的对象时，要注意深拷贝，以免对赋值之后的变量操作，改变了vuex中的数据
 
 9、本地测试无法定位到源代码位置，修改config中build的devtool为**#source-map**
+
+10、vue组件异步加载
+```
+const later = Vue.component('later', function(resolve) {
+    setTimeout(function() {
+        require(['./later.vue'], resolve)
+    }, 3000);
+})
+
+2.3新增
+
+const AsyncComp = () => ({
+    // 需要加载的组件，应当是一个Promise
+    component: import('./My.vue'),
+    // 加载中应当渲染的组件
+    loading: Loading,
+    // 出错时渲染的组件
+    error: ErrorComp,
+    // 渲染加载组件前等待时间，默认200ms
+    delay: 200,
+    // 最长等带时间，超出此时间则渲染错误组件
+    timeout: 3000
+})
+```
      
      
      
