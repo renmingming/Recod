@@ -370,6 +370,16 @@ range.collapseToEnd(); //光标移至最后
 ```
 视频自动播放：video.play();
 
+29、js操作History路由：
+
+	history.pushState(状态对象, 标题，url)
+	
+	history.replaceState(状态对象, 标题，url)
+	
+	都会操作浏览器的历史记录，而不会引起页面的刷新;
+	
+	不同之处在于，pushState会增加一条新的历史记录，而replaceState则会替换当前的历史记录。
+
 
 
 ## vue常遇问题
