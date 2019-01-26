@@ -380,6 +380,7 @@ range.collapseToEnd(); //光标移至最后
 	
 	不同之处在于，pushState会增加一条新的历史记录，而replaceState则会替换当前的历史记录。
 
+30、使用transform与定位，导致层级问题，z-index无效时，给使用transform的父元素也加上transform
 
 
 ## vue常遇问题
