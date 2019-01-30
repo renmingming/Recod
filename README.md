@@ -382,6 +382,16 @@ range.collapseToEnd(); //光标移至最后
 
 30、使用transform与定位，导致层级问题，z-index无效时，给使用transform的父元素也加上transform
 
+31、iphonex全屏填充 meta标签中的viewport，content：viewport-fit=cover,有fixed定位的时候使用媒体查询把底部的空白加上（34px);
+```
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  body,html,.dialog,.share-dialog{
+    height: -moz-calc(100% + 34px);
+    height: -webkit-calc(100% + 34px);
+    height: calc(100% + 34px);
+  }
+}
+```
 
 ## vue常遇问题
 
