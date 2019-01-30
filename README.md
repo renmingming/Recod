@@ -393,6 +393,50 @@ range.collapseToEnd(); //光标移至最后
 }
 ```
 
+32、XMLHttpRequest,ajax
+```
+function ajax(opt){
+	opt = opt || {};
+	opt.method = opt.method.toUpperCase() || 'POSt';
+	opt.url = opt.url || '';
+	opt.async = opt.async || true;
+	opt.data = opt.data || null;
+	
+	opt.success = opt.success || function () {};
+	opt.error = opt.error || function() {};
+	var xmlHttp = null;
+	if(XMLHttpRequest) {
+		xmlHttp = new XMLHttpRequest();
+	} else {
+		xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+	}
+	
+	var params = [];
+	for(var key in opt.data) {
+		params.push(key + '=' + opt.data[key])
+	}
+	var postData = params.join('&');
+	if(opt.method.toUpperCase() === 'POST') {
+		xmlHttp.open(opt.method, opt.url, opt.async);
+		xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
+		xmlHttp.send(postData);
+	}
+	if(opt.method.toUpperCase() === 'GET') {
+		xmlHttp.open(opt.method, opt.url + '?' + postData, opt,async);
+		xmlHttp.send(null);
+	}
+	xmlHttp.onreadystatechange = function() {
+		if(xmlHttp.readyState == 4) {
+			if(xmlHttp.status == 200) {
+				opt.success(JSON.parse(xmlHttp.responseText));
+			}else{
+				opt.error('网络异常')
+			}
+		}
+	}
+ }
+```
+
 ## vue常遇问题
 
 1、监听对象中的某个属性：
