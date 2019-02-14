@@ -437,6 +437,10 @@ function ajax(opt){
  }
 ```
 
+33、循环迭代器
+
+	es6中使用for(let item of data){}就可以，其中data必须要有Symbol.iterator,才能使用for...of
+
 ## vue常遇问题
 
 1、监听对象中的某个属性：
