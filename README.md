@@ -440,6 +440,17 @@ function ajax(opt){
 33、循环迭代器
 
 	es6中使用for(let item of data){}就可以，其中data必须要有Symbol.iterator,才能使用for...of
+	
+34、自定义虚线边框
+
+```
+	div {
+	    padding: 1em;
+	    border: 1px dashed transparent;
+	    background: linear-gradient(white,white) padding-box,
+	    repeating-linear-gradient(-45deg,#ccc 0, #ccc 0.25em,white 0,white 0.75em);
+	}
+```
 
 ## vue常遇问题
 
