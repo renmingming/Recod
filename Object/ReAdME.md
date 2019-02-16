@@ -2,24 +2,21 @@
     1、assign()
 
     2、create()
-        ```
+
         Object.create({x:123}),将对象继承到了__proto__属性上了
         Object.create = function (o) {
             var F = function() {};
             F.prototype = o;
             return new F();
         }
-        ```
     3、defineProperty(obj, prop, descriptor)
 
         参数：
-
             obj(要在其上定义属性的对象)
             prop(要定义或者修改的属性名称)
             descriptor(将要被定义或者修改的属性的描述符)
 
         示例：
-            ```
             var o = {};
             // 在对象中添加一个属性与数据描述符
             Object.defineProperty(o, 'a', {
@@ -45,7 +42,7 @@
             o.b = 8;
             // o拥有了属性b，值为8；
             o.b的值总是回与bValue相同，除非重新定义o.b
-            ```
+            
 
     4、defineProperties(obj, props)
     
