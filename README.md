@@ -18,6 +18,11 @@
 
 7、vue后台管理系统： **iview-admin**
 
+8、思维图：百度脑图 http://naotu.baidu.com/
+
+9、有限状态机的函数库javascript-state-machine
+
+10、UMl类图工具：processon
 
 
 
