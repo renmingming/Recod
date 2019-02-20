@@ -29,9 +29,23 @@
 ## 实用代码
 1、移动适配代码：
   ```
-  var scale = 1 / devicePixelRatio;
-  document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
-  document.documentElement.style.fontSize = 100 * (document.documentElement.clientWidth / 750) + 'px';
+  (function(doc, win){
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if(clientWidth>750){
+                    docEl.style.fontSize = '100px';
+                }else{
+                    docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                }
+            };
+        if (!doc.addEventListener) return;
+        recalc();
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window)
   ```
 2、判断回文（'aba','bfcfb'等）
 
@@ -455,6 +469,26 @@ function ajax(opt){
 	    background: linear-gradient(white,white) padding-box,
 	    repeating-linear-gradient(-45deg,#ccc 0, #ccc 0.25em,white 0,white 0.75em);
 	}
+```
+
+35、复制功能
+
+```
+    var input = $("<input>");
+    var value = $(this).siblings('.copy-text').text();
+    input.attr('readonly','readonly') // ios闪
+    input.attr('class','hidden-input')
+    input.val(value);
+    $('body').append(input);
+    if(input.get(0).setSelectionRange(0, value.length)){
+      input.get(0).setSelectionRange(0, value.length);
+    }else{
+      input.get(0).select()
+    }
+    if(document.execCommand('copy')){
+      document.execCommand('copy')
+    }
+    $('.hidden-input').remove()
 ```
 
 ## vue常遇问题
