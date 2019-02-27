@@ -26,6 +26,14 @@
 
 10、UMl类图工具：processon
 
+11、终端请求：curl -d 'name=renming&&age=12' http://127.0.0.1:8080/addPerson
+
+12、mongodb可视化工具  **Robo 3T**
+
+13、mongodb库  **mongoose**
+
+14、Redis 高速读写
+
 
 
 ## 实用代码
@@ -473,24 +481,50 @@ function ajax(opt){
 	}
 ```
 
-35、复制功能
+35、复制功能:多个复制、兼容ios
 
 ```
-    var input = $("<input>");
-    var value = $(this).siblings('.copy-text').text();
-    input.attr('readonly','readonly') // ios闪
-    input.attr('class','hidden-input')
-    input.val(value);
-    $('body').append(input);
-    if(input.get(0).setSelectionRange(0, value.length)){
-      input.get(0).setSelectionRange(0, value.length);
-    }else{
-      input.get(0).select()
+    var jsCopy = function (obj) {
+
+    function fn() {
+      var copyDOM = obj.parentNode.children[0]
+
+        var range = document.createRange();
+        // 选中需要复制的节点
+        range.selectNode(copyDOM);
+        // 执行选中元素
+        window.getSelection().addRange(range);
+        // 执行 copy 操作
+        var successful = document.execCommand('copy');
+        try {
+          var msg = successful ? 'successful' : 'unsuccessful';
+          console.log('copy is' + msg);
+        } catch (err) {
+          console.log('Oops, unable to copy');
+        }
+        // 移除选中的元素
+        window.getSelection().removeAllRanges();
+      // 安卓系统的UC浏览器
+      if (u.indexOf('Android') > -1 && u.indexOf('UCBrowser') > -1) {
+        // obj.innerHTML = '点击复制文案';
+        alert('若点击复制文案无效，请长按内容手动复制！');
+      }
     }
-    if(document.execCommand('copy')){
-      document.execCommand('copy')
-    }
-    $('.hidden-input').remove()
+    obj.addEventListener('click', fn, false);
+  };
+
+  //
+  let copyBtns = document.querySelectorAll('.copy-btn');
+  copyBtns.forEach((obj) => {
+    jsCopy(obj);
+  });
+```
+
+36、array.fill('替换字符',start, end)
+```
+    let arr = [1,2,3,4,5,6];
+    arr.fill('*',2, 4)
+    // arr=>[1,2,*,*,56]
 ```
 
 ## vue常遇问题
@@ -609,7 +643,44 @@ const AsyncComp = () => ({
     }]
 
 ```
+
+2、生命周期
+
+```
+    Incoming Request // 浏览器发起请求
+
+    // 服务端接收到请求，检查是否有这个，有的话执行
+    nuxtServerInit （store active)操作vuex
+
+    middleware // 想要做的功能
+
+    validate() // 动态验证，可配合高级路由，比如：是否能进入该页面
+
+    asyncData() && fetch() // 获取数据asyncData时获取渲染数据设置data中的值，fetch是修改vuex数据的
+
+    render()
+```
+
+3、layouts模版组件，pages页面组件
+
+    在页面组件中使用对应的模版组件
+    export default {
+        layout: 'about', // 对应的layouts模版组件名称
+    }
      
+4、nuxt识别import等
+
+```
+    安装babel-cli: sudo cnpm install -g babel-cli
+    给package.json中的dev和start命令后面添加 --exec babel-node
+    继续安装babel-preset-env：cnpm i babel-preset-env --save-dev
+    根目录创建.babelrc文件 
+    {
+        "presets": ["env"]
+    }
+```
+
+
 ## React记录
 
 1、生命周期
