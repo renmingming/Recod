@@ -1,5 +1,12 @@
 # mongoose
 
+```
+ cd /usr/local/bin
+ ./mongod --dbpath=./data/db
+  // Reids
+ redis-server
+```
+
 1、链接数据库
 
 ```

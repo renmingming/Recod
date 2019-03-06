@@ -1,7 +1,7 @@
 # koa2
 
 ## 中间件
-案例
+1、案例
 ```
 // m1.js
 function m1(ctx) {
@@ -51,7 +51,7 @@ m1 /  =>   m2 /   =>  m3 /   =>    m3 end     =>    m2 end    => m1 end
 先进入中间件，等从中间件进去之后，然后从最后一个中间件往出走；出去的代码在 next()之后
 
 ```
-1、koa-generic-session
+2、koa-generic-session
     koa-redis
 app.use(session({
   key: 'mt',
@@ -62,6 +62,10 @@ app.use(session({
 怎样使用session
     
     ctx.session.count++ 设置了session；通过ctx.session可以获取
+
+3、koa-passport // 用户鉴权中间件
+
+4、passport-local // 本地验证用
 
 ## 路由
 
@@ -98,3 +102,33 @@ ctx.cookies.get('pvid')
 ## ctx
 
 1、ctx.request.boxy.** 所传参数 psot请求  get请求为query
+
+## vscode node 调试
+.launch.json
+```
+"configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "启动程序",
+      "program": "${workspaceFolder}/lib/login.js",
+      "sourceMaps": true,
+      "preLaunchTask": "build" // 等于下面`label`值
+    }
+  ]
+```
+tasks.json
+```
+{
+  "version": "2.0.0",
+  "command": "npm",
+  "tasks": [
+    {
+      "label": "build",
+      // 合起来就是`npm run build`
+      "type": "npm",
+      "script": "build"
+    }
+  ]
+}
+```

@@ -34,6 +34,8 @@
 
 14、Redis 高速读写
 
+15、加密 **crypto-js**
+
 
 
 ## 实用代码
@@ -526,6 +528,8 @@ function ajax(opt){
     arr.fill('*',2, 4)
     // arr=>[1,2,*,*,56]
 ```
+
+38、随机字符串：Math.random().toString(16).slice(2,6)
 
 ## vue常遇问题
 
