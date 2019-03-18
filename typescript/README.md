@@ -86,19 +86,54 @@ clss Studen extends Person { // 继承抽象类必须实现所有的抽象方法
 
 ```
 // 只有抽象描述，不能有具体值
-interface Options{
-    width: number,
-    height: number,
-    color?: string,  // 可选的
-    size: number
-}
+    interface Options{
+        width: number,
+        height: number,
+        color?: string,  // 可选的
+        size: number
+    }
 
 // 只要包含其中一些规则即可
     -- 可选  ？
     -- 断言 as
-function fn(opts: Options) {}
-fn({
-    heidht:100,
-    width:50
-} as Options) // as 断言告诉其符号Options规则
+    function fn(opts: Options) {}
+    fn({
+        heidht:100,
+        width:50
+    } as Options) // as 断言告诉其符号Options规则
+
+**参数过于规则项，可先赋值给一个变量，绕开检测**
+    let obj = {
+        width: 50,
+        height:10,
+        size: 2,
+        a:1
+    }
+    fn(obj) // 可以
+
+ **一组数字作为key值命名的， dom Node节点------索引签名**
+    // interface Options{
+        0:string,
+        1:string
+    }
+    // 索引签名key可以是number，也可以是string
+    interface Options{
+        // key是number，value是any类型
+        [attr: number]: any,
+        length: number
+    }
+
+**函数类型接口**
+
+    定义一个事件函数，那么必须定义一定的规则，不能随便吧一个函数赋值给事件
+    // 函数接口
+    interface IFn {
+        (x:number,y:number):number
+    }
+    let fn: IFn = function(x:number,y:number):number{return x + y}
+    
+    // 定义一个接受MouseEvent类型参数的函数结构
+    interface MouseEveatCallBack{
+        (e: MouseEvent): any
+    }
 ```

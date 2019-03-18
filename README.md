@@ -533,6 +533,18 @@ function ajax(opt){
 
 38、随机字符串：Math.random().toString(16).slice(2,6)
 
+39、字符串网址替换成链接
+
+```
+urlStrToLink(url) {
+    let reg=/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+    let msgText = url.replace(reg, function() {
+      return `<a target='_blank' href='${arguments[0]}'>${arguments[0]}</a>`
+    })
+    return msgText;
+  }
+```
+
 ## vue常遇问题
 
 1、监听对象中的某个属性：
