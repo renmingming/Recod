@@ -40,6 +40,8 @@
 
 17、移动端组件库vue：Mand Mobile
 
+18、雪碧图：https://www.toptal.com/developers/css/sprite-generator
+
 
 
 ## 实用代码
