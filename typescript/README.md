@@ -137,3 +137,11 @@ clss Studen extends Person { // 继承抽象类必须实现所有的抽象方法
         (e: MouseEvent): any
     }
 ```
+
+9、强制转换类型--类型断言
+
+    比如 let someValue: any = 'renmingming';
+    1-使用<string>使用尖括号
+        let strlength: number = (<string>someValue).length;
+    2-使用as
+        let strlength: number = (someValue as string).length
