@@ -145,3 +145,119 @@ clss Studen extends Person { // 继承抽象类必须实现所有的抽象方法
         let strlength: number = (<string>someValue).length;
     2-使用as
         let strlength: number = (someValue as string).length
+
+10、对象结构制定类型
+
+    let o = {a: 1, b: 2};
+    不能这样：let {a: aa, b: bb} = o;这样是属性重命名
+    应该这样 let {a,b}: {a: number, b: number} = o;
+
+11、只读属性
+
+    interface Point {
+        readonly x: number
+        readonly y: number
+    }
+
+    泛型只读数组： ReadOnlyArray
+    let a: number[] = [1,2,3,4]
+    let ro: ReadOnlyArray<number> = a // 不能对ro修改push等
+
+    变量使用const，属性使用Readonly
+
+12、额外属性检查-----索引签名
+
+    interface Point {
+        color?: string
+        // 除了color，可是有其他任意属性名
+        [propName: string]: any  // 索引属性名为字符串，值为any任意类型
+    }
+    interface Person {
+        [index: number]: string
+    }
+    let arr: Person = ['ren','ming','ming']
+
+13、定义类的接口：
+
+    1、类的实例接口
+
+
+    2、类的构造器接口  //静态部分
+
+    ```
+        interface ClockInterface {
+        tick()
+        }
+
+        interface ClockConstructor {
+        new(hour: number, minute: number): ClockInterface
+        }
+
+        function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface {
+        return new ctor(hour, minute)
+        }
+
+        class DigitalClock implements ClockInterface {
+        constructor(h: number, m: number) {
+
+        }
+        tick() {
+            console.log('beep bepp digitalclock')
+        }
+        }
+
+        class AnglogClock implements ClockInterface{
+        constructor(h: number, m: number) {
+
+        }
+        tick() {
+            console.log('anglogclock tick')
+        }
+        }
+
+        let digital = createClock(DigitalClock, 12, 17)
+        let anglog = createClock(AnglogClock, 20, 28)
+    ```
+
+14、混合类型
+
+    ```
+        interface Counter{
+        (start: number): string
+        interval: number
+        reset(): void
+        }
+        function getCounter(): Counter{
+        let counter = (function(start: number) {
+
+        }) as Counter
+        counter.interval = 123
+        counter.reset = function() {}
+
+        return counter
+        }
+    ```
+
+15、接口继承类
+    ```
+    class Control{
+    private state: any
+    }
+
+    interface SelectionControl extends Control{
+    select()
+    }
+
+    class Button extends Control implements SelectionControl{
+    select() {}
+    }
+    class TextBox extends Control{
+    select() {}
+    }
+    class ImageC implements SelectionControl{
+        // 错误
+    select() {
+
+    }
+    }
+```
