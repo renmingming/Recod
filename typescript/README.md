@@ -42,7 +42,7 @@ import * as $ from 'jquery
         return x+y
     }
 ```
-    函数重载
+6-1、函数重载
 ```
 function fn(x:number, y:number):number;
 function fn(x:string, y:string):string;
@@ -261,3 +261,44 @@ clss Studen extends Person { // 继承抽象类必须实现所有的抽象方法
     }
     }
 ```
+
+16、类静态属性修改
+
+```
+    // 修改静态属性值
+    class Greeter{
+    static greeting = 'hello'
+    }
+    let greeterMaker: typeof Greeter = Greeter
+    greeterMaker.greeting = 'hello word'
+    let greeter2: Greeter = new greeterMaker();
+```
+
+17、泛型函数-----保持参数类型和返回类型一致
+
+    // 泛型类型变量
+
+```
+function identity<T>(age: T): T{
+    // T帮助我们捕获用户传入类型
+    return arg
+}
+// let output = identity<string>('myString')
+let output2 = identity('myString')
+```
+
+18、泛型接口
+
+```
+function identity<T>(arg: T): T{
+    return arg
+}
+interface GenericIdentityFn<T> {
+    (arg: T): T
+}
+
+//interface GenericIdentityFn {
+//    <T>(arg: T): T
+//}
+
+let myIdentity:GenericIdentityFn<number> = identity
