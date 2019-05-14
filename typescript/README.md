@@ -302,3 +302,84 @@ interface GenericIdentityFn<T> {
 //}
 
 let myIdentity:GenericIdentityFn<number> = identity
+
+19、 泛型类
+
+```
+class GenericNumber<T> {
+  zeroValue: T
+  add: (x: T, y: T) => T
+}
+
+let myGenericNumber = new GenericNumber<number>()
+myGenericNumber.zeroValue = 1
+myGenericNumber.add = function(x, y) {
+  return x + y
+}
+```
+
+20、 泛型约束
+
+```
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+  return obj[key]
+}
+let x = {a: 1, b: 2, c: 3, d: 4}
+getProperty(x, 'a')
+getProperty(x, 'm') // m参数报错，m是不是x的key
+
+function createInstance<T>(c: new() => T): T {
+  return new c()
+}
+```
+21、 联合类型
+```
+interface Bird{
+  fly()
+  layEggs()
+}
+interface Fish{
+  swim()
+  layEggs()
+}
+
+function getSmallPet(): Fish | Bird {
+
+}
+let pet = getSmallPet()
+pet.layEggs()
+pet.swim() //报错，不是Fish和Bird共有的
+```
+
+22、类型保护机制
+
+    --- 用户自定义
+
+    --- typeof
+
+    --- instanceof
+```
+if(isFish(pet)) {
+    pet.swim()
+} else {
+    pet.fily()
+}
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (pet as Fish).swim !== undefined
+}
+```
+
+23、null的类型保护
+
+```
+function broken(name: string | null): string {
+    function postfix(epither: string) {
+        // !断言不为null
+        return name!.charAt(0) + '. the ' + epither
+    }
+
+    name = name || 'Bob'
+    return postfix(name)
+}
+broken(null)
+```
