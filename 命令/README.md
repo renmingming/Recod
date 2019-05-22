@@ -58,18 +58,18 @@ ssh -p 端口号 root#ip
 5、pm2
 
   启动程序
-    ```
-    pm2 start app.js --name test
-    ```
+  ```
+  pm2 start app.js --name test
+  ```
   终止进程
-    ```
-    pm2 stop
-    ```
+  ```
+  pm2 stop
+  ```
   列举启动的程序
-    ```
-    pm2 list
-    ```
-    pm2命令大全
+  ```
+  pm2 list
+  ```
+  pm2命令大全
     ```
     pm2 logs 显示所有进程日志
     $ pm2 stop all 停止所有进程
