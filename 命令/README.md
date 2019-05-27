@@ -7,12 +7,16 @@
   ```
   scp -r /Users/apple/self/react/react-admin/dist root@1.1.1.1:/home/user/www
   ```
+  --- 删除文件、文件夹
+  ```
+  rm -rf name     // name 文件、文件夹名称  -rf删除文件夹
+  ```
 
   2、登录远程服务器
 
-```
-ssh -p 端口号 root#ip
-```
+  ```
+  ssh -p 端口号 root#ip
+  ```
 
 3、git
   新建本地git仓库
@@ -93,3 +97,9 @@ ssh -p 端口号 root#ip
     $ pm2 start app.js -i max -- -a 23 在--之后给 app.js 传递参数
     $ pm2 start app.js -i max -e err.log -o out.log 启动 并 生成一个配置文件
     ```
+
+6、查找软件安装的路径位置
+
+```
+which 'name'
+```

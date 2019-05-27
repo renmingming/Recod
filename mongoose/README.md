@@ -2,9 +2,11 @@
 
 ```
  cd /usr/local/bin
- ./mongod --dbpath=./data/db
+ ./mongod --dbpath=./data/db    --auth 是否权限认证
+ show dbs  // 显示数据库
   // Reids
  redis-server
+
 ```
 
 1、链接数据库

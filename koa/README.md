@@ -1,5 +1,7 @@
 # koa2
 
+    脚手架：koa-generator
+
 ## 中间件
 1、案例
 ```
@@ -102,6 +104,24 @@ ctx.cookies.get('pvid')
 ## ctx
 
 1、ctx.request.boxy.** 所传参数 psot请求  get请求为query
+
+## 遇到的问题
+
+1、延时返回结果
+```
+直接写setTimeout(() => {
+    ctx.body = {}
+}, 1000) 没有用
+应该
+function delay(time) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve()
+      }, time)
+    })
+  }
+  await delay(3000)
+```
 
 ## vscode node 调试
 .launch.json

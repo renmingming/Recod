@@ -472,6 +472,17 @@ function ajax(opt){
 		}
 	}
  }
+ -- 响应：responseText  字符串形式的数据
+ --- onreadystatechange事件： readyState属性改变时，就会调用改函数
+ --- readyState ： XMLHttpRequest状态
+                    0: 请求未初始化
+                    1: 服务器连接已建立
+                    2: 请求已接收
+                    3: 请求处理中
+                    4: 请求已完成，且响应已就绪
+---- status： 200‘ok’ 404:未找到页面
+---- onerror错误事件
+---- ontimeout 请求超时事件
 ```
 
 33、循环迭代器
@@ -547,6 +558,12 @@ urlStrToLink(url) {
     })
     return msgText;
   }
+```
+
+40、获取月份的最后一天或者每月总攻多少天
+
+```
+new Date('2019','5',0).getDate()  // 获取5的前一个月的天数，也就是4月的总天数
 ```
 
 ## vue常遇问题
