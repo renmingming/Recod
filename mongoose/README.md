@@ -3,7 +3,16 @@
 ```
  cd /usr/local/bin
  ./mongod --dbpath=./data/db    --auth 是否权限认证
+ ./mongod --config 配置文件路径
  show dbs  // 显示数据库
+ use admin // 进入admin数据库
+ db.createUser( // 创建用户名
+...   {
+...     user: "renming",
+...     pwd: "renming",
+...     roles: [ { role: "userAdmin", db: "admin" } ]
+...   }
+... )
   // Reids
  redis-server
 
@@ -15,8 +24,10 @@
 app.js中引入
 const mongoose = require('mongoose);
 // mongodb://127.0.0.1:27127/dbs
+// mongodb://renming:renming@127.0.0.1:27127/admin
 mongoose.connect(config.dbs, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    auto_reconnect: true
 })
 
 ```

@@ -58,6 +58,10 @@
   ```
   kill -l PID
   ```
+  结束
+  ```
+  kill -9 2071
+  ```
 
 5、pm2
 
@@ -102,4 +106,11 @@
 
 ```
 which 'name'
+```
+
+7、解压
+
+```
+tar –xvf file.tar //解压 tar包
+tar -xzvf file.tar.gz //解压tar.gz
 ```
