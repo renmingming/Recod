@@ -114,3 +114,27 @@ which 'name'
 tar –xvf file.tar //解压 tar包
 tar -xzvf file.tar.gz //解压tar.gz
 ```
+
+8、环境变量
+
+```
+vim ~/.bash_profile
+source ~/.bash_profile
+```
+
+9、查看当前文件下的文件权限
+
+```
+ls -l
+```
+
+10、修改当前所有文件的权限为apple
+
+```
+sudo chown -R apple ./
+```
+
+11、当前管理用户
+```
+whoami
+```
