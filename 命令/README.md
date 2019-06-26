@@ -138,3 +138,8 @@ sudo chown -R apple ./
 ```
 whoami
 ```
+
+12、MAC查看端口占用情况
+```
+lsof -i tcp:port
+```
