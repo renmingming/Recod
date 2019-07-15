@@ -143,3 +143,15 @@ whoami
 ```
 lsof -i tcp:port
 ```
+
+13、文件变化实时显示新的内容
+```
+tail -f development.log 
+// 显示指定内容
+tail -f development.log | grep 'online_status'
+```
+
+14、输出到指定文件
+```
+php cli.php async start >> log/async.log 
+```
