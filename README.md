@@ -573,6 +573,13 @@ urlStrToLink(url) {
 new Date('2019','5',0).getDate()  // 获取5的前一个月的天数，也就是4月的总天数
 ```
 
+41、通过两点计算距离p(x,y) p1(x1, y1)
+```
+var dx = Math.abs(p.x - p1.x1); // 计算x的差的绝对值
+var dy = Match.abs(p.y - p1.y1);
+Math.sqrt(Math.pow(dx, 2) + Math.pow(dy,2))  // dx,dy的平方和，的平方根
+```
+
 ## vue常遇问题
 
 1、监听对象中的某个属性：
