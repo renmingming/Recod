@@ -50,6 +50,8 @@
 
 22、**docker**
 
+23、web端播放amr格式音频：参考地址 **https://www.npmjs.com/package/amr-js**
+
 
 ## 实用代码
 1、移动适配代码：
@@ -579,6 +581,7 @@ var dx = Math.abs(p.x - p1.x1); // 计算x的差的绝对值
 var dy = Match.abs(p.y - p1.y1);
 Math.sqrt(Math.pow(dx, 2) + Math.pow(dy,2))  // dx,dy的平方和，的平方根
 ```
+
 
 ## vue常遇问题
 
