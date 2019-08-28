@@ -582,6 +582,19 @@ var dy = Match.abs(p.y - p1.y1);
 Math.sqrt(Math.pow(dx, 2) + Math.pow(dy,2))  // dx,dy的平方和，的平方根
 ```
 
+42、amr音频文件播放2:
+```
+    引入示例代码中的amr2.js
+    对音频文件进行base64，使用PHP
+        $video = file_get_contents('http://meet-development.oss-cn-hangzhou.aliyuncs.com/chats/audio/normal/20190821/5d5cf65676db3.amr');
+        info(base64_encode($video));
+
+        RongIMLib.RongIMVoice.init();
+        $('#paly-btn').click(function() {
+            RongIMLib.RongIMVoice.play(base64_encode($video));
+        })
+```
+
 
 ## vue常遇问题
 
