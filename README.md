@@ -595,6 +595,14 @@ Math.sqrt(Math.pow(dx, 2) + Math.pow(dy,2))  // dx,dy的平方和，的平方根
         })
 ```
 
+43、上下拉动滚动条时卡顿、慢
+```
+body {
+-webkit-overflow-scrolling: touch;
+overflow-scrolling: touch;
+}
+```
+
 
 ## vue常遇问题
 

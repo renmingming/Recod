@@ -30,6 +30,8 @@
 
 9、sismember($key, $val)  ===>  判断元素是否是集合的成员
 
+10、zcount(key, min, max)   ====>   计算有序集合中指定分数区间的成员数量(-inf, +inf)
+
 ## 哈希
 
 1、hget($key, $field)  ===>  返回哈希表中指定字断的值
