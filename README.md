@@ -603,6 +603,11 @@ overflow-scrolling: touch;
 }
 ```
 
+44、图片六边形
+```
+clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+```
+
 
 ## vue常遇问题
 

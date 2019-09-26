@@ -155,3 +155,9 @@ tail -f development.log | grep 'online_status'
 ```
 php cli.php async start >> log/async.log 
 ```
+
+15、liunx命令crontab定时任务
+
+```
+crontab -e
+```
