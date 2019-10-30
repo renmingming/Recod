@@ -15,10 +15,10 @@
 
 1、zcard($key) ===>  返回集合中元素的数量，没有返回0
 
-2、zrevrange($key, start, stop) ===>  返回有序集中，start到stop区间内的成员（从大到小排序）
-
+2、zrevrange($key, start, stop, 'withscores') ===>  返回有序集中，start到stop区间内的成员（从大到小排序）
+  zrevrangeByScore
 3、zrange($key, start, stop)  ===> 从小到大排序，-1最后一个成员
-
+    zrangeByScore
 4、zadd($key, $num, $val)  ===>  将一个或多个元素及分数值添加到有序集中
 
 5、sadd($key, $val) ===>  将一个或多个元素加到集合中
@@ -41,4 +41,6 @@
 
 3、hmset($key, [$field => $val, $field1 => $val2])  ===>  同时将多个field-val对设置到哈希表中
 
-4、hgetall()  ===>  返回哈希表中所有的字断和值
+4、hgetall($key)  ===>  返回哈希表中所有的字断和值
+
+5、hincrby($key, $field, 1)  ===> 给牧歌key值的一个字断加1
