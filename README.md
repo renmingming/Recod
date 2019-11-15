@@ -5,7 +5,7 @@
 
 2、数据模拟工具：
       **Easy Mock + mock.js**
-      
+
 3、时间转化成类似于*** 时间前的描述字符串（3小时前）：
       **timeago.js**
 
@@ -52,6 +52,7 @@
 
 23、web端播放amr格式音频：参考地址 **https://www.npmjs.com/package/amr-js**
 
+24、**convert** 命令处理图像
 
 ## 实用代码
 1、移动适配代码：
@@ -77,12 +78,12 @@
 2、判断回文（'aba','bfcfb'等）
 
   实用栈判断字符串是否为回文。将字符串从左到右push压入栈内，栈内保存的是反转的字符串，最后一个字符在在栈顶，第一个在栈底，实用pop取出栈内字符串，与原始字符串对比，相等则为回文
-  
+
 3、字符替换：
   ```
   // x被替换字符，y替换新的字符
   str.replace(/x/g,'y')
-  
+
    匹配路由#和？后的任意字符为空
   str.replace(/#|\?.*$/g, '')
   ```
@@ -98,9 +99,9 @@
   // index - 1的判断 防止index为0，出现负数
   newInde = (index - 1 + arrLenth) % arrLenth;
   ```
-  
+
 5、DNS 预解析技术 DNS-prefetch
-  
+
   浏览器在加载网页时对网页中的域名进行解析缓存，这样在点击当前网页中的链接时就无需进行DNS解析，减少等待时间，DNS解析，需要用域名解析匹配IP，这个需要时间，加了dns-prefetch，浏览器就回缓存这个解析，直接请求，不需要在dns解析了
 
 6、导航递归
@@ -114,16 +115,16 @@
     })
   }
   ```
-  
+
   7、字典：
-  
+
     ```
       let config = {
         "a": "renming",
         "b": "mingming",
         "c": "renmingming"
       }
-      
+
       config[a]
     ```
 
@@ -185,7 +186,7 @@ console.log(arr instanceof Object) // false;
 ```
 var str = 'sdkf34lk00j234l23k4';
 var newStr = str.replace(//g,function(){
-     return "["+arguments[0]+"]"; 
+     return "["+arguments[0]+"]";
 })
 newStr // sdkf[34]lk[00]j[234]l[23]k[4]
 ```
@@ -204,9 +205,9 @@ Object.defineProperty(data, 'b', {
      }
 })
  ```
- 
+
  16、节流函数
- 
+
  ```
  // func需要执行的方法，wait不重复执行该方法的时间
 function throttle(func, wait) {
@@ -236,9 +237,9 @@ let throttleRun = throttle(() => {
     console.log(123);
 }, 0);
  ```
- 
+
  17、防抖
- 
+
  ```
  function debounce(func, wait) {
     let lastTime = null;
@@ -274,7 +275,7 @@ let throttleRun = throttle(() => {
 var range = window.getSelection(); //创建range
 range.selectAllChildren(content); //range 选择obj下所有子内容
 range.collapseToEnd(); //光标移至最后
-          
+
 ```
 
 19、防止xss攻击：如（输入框输入<script>alert('123')</script>,被执行,可使用下插件
@@ -329,7 +330,7 @@ range.collapseToEnd(); //光标移至最后
              objClone = JSON.parse(_obj);
          return objClone
      }
-     
+
 ```
 
 
@@ -366,11 +367,11 @@ range.collapseToEnd(); //光标移至最后
 25、返回字符串中带有换行符'↵'，在不使用v-html的情况下，使其保持换行使用css属性：**white-space：pre-line/pre-wrap**
 
 26、return、break、continue ---容易出错---
-	
+
 	return:跳出当前方法；
-	
+
 	break:结束当前循环，继续执行循环体外的下面的代码；
-	
+
 	continue: 结束本次循环，继续执行下次循环；
 
 27、判断对象是否相等
@@ -379,7 +380,7 @@ range.collapseToEnd(); //光标移至最后
 	function isObjectValueEqual(a,b){
 		var aProps = Object.getOwnPropertyNames(a);
 		var bProps = Object.getOwnPropertyNames(b);
-		
+
 		if(aProps.length != bProps.length) {
 			return false;
 		}
@@ -396,7 +397,7 @@ range.collapseToEnd(); //光标移至最后
 28、video标签层级问题，video播放时层级最高：ios
 
 ```
-	
+
 	controls="controls"
 
 	x5-playsinline=""
@@ -412,18 +413,18 @@ range.collapseToEnd(); //光标移至最后
 	x5-video-player-fullscreen=""
 
 	x5-video-orientation="portraint"
-	
+
 ```
 视频自动播放：video.play();
 
 29、js操作History路由：
 
 	history.pushState(状态对象, 标题，url)
-	
+
 	history.replaceState(状态对象, 标题，url)
-	
+
 	都会操作浏览器的历史记录，而不会引起页面的刷新;
-	
+
 	不同之处在于，pushState会增加一条新的历史记录，而replaceState则会替换当前的历史记录。
 
 30、使用transform与定位，导致层级问题，z-index无效时，给使用transform的父元素也加上transform
@@ -447,7 +448,7 @@ function ajax(opt){
 	opt.url = opt.url || '';
 	opt.async = opt.async || true;
 	opt.data = opt.data || null;
-	
+
 	opt.success = opt.success || function () {};
 	opt.error = opt.error || function() {};
 	var xmlHttp = null;
@@ -456,7 +457,7 @@ function ajax(opt){
 	} else {
 		xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
 	}
-	
+
 	var params = [];
 	for(var key in opt.data) {
 		params.push(key + '=' + opt.data[key])
@@ -497,7 +498,7 @@ function ajax(opt){
 33、循环迭代器
 
 	es6中使用for(let item of data){}就可以，其中data必须要有Symbol.iterator,才能使用for...of
-	
+
 34、自定义虚线边框
 
 ```
@@ -640,7 +641,7 @@ clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 3、组件通信：
 
     a: 可以使用vuex
-    
+
     b: 父子组件通信
       ```
         // 子组件
@@ -653,16 +654,16 @@ clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 
 4、flow：javascript静态类型检查工具
      如Vue: Class<Component> 和 const vm: Component = this
-     
+
 6、向数组里添加新的元素，视图并更新，**向第一位添加问题**
-     
+
     ```
     // 向数组第一位添加可行
     arr.splice(0,0,newArr)
     // 向后添加使用
     this.$set(arr,key, val)
     ```
-    
+
 7、vue中v-for=“(item,index) in arr”循环下使用index，去改变data中的属性时，会报一下错误：
 **You may have an infinite update loop in a component render function**
 可以data
@@ -695,9 +696,9 @@ const AsyncComp = () => ({
     timeout: 3000
 })
 ```
-     
-     
-     
+
+
+
 ### nuxt问题记录
 
 1、第三方插件/js引入，报window/navigator等 is not defined
@@ -708,7 +709,7 @@ const AsyncComp = () => ({
      import Vue from 'vue'
      import VueCookie from 'vue-cookie'
      Vue.use(VueCookie)
-``` 
+```
 或者jsencrypt.js
 ```
     import JSEncrypt from 'jsencrypt'
@@ -749,14 +750,14 @@ const AsyncComp = () => ({
     export default {
         layout: 'about', // 对应的layouts模版组件名称
     }
-     
+
 4、nuxt识别import等
 
 ```
     安装babel-cli: sudo cnpm install -g babel-cli
     给package.json中的dev和start命令后面添加 --exec babel-node
     继续安装babel-preset-env：cnpm i babel-preset-env --save-dev
-    根目录创建.babelrc文件 
+    根目录创建.babelrc文件
     {
         "presets": ["env"]
     }
@@ -793,9 +794,9 @@ const AsyncComp = () => ({
     }
     render() {}
   ```
-  
+
   2、在事件使用箭头函数并要传参数时如下使用：
-  
+
      ```
        handle = (id) => {
         // 代码
@@ -806,7 +807,7 @@ const AsyncComp = () => ({
         )
        }
      ```
-     
+
 3、在创建编辑功能中(同一个表单)使用antd的form时，在创建提交成功之后要重置表单：this.props.from.resetFields()，不然编辑时数据为创建时的数据
 
 4、在react+antd中使用less修改antd主题，使用less的2.7.3以前版本
