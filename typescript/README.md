@@ -14,7 +14,7 @@ import * as $ from 'jquery
     let data: number[]; // 数组只能存数字
 
     数组存多个类型使用元组tuple：let data:[number, string,boolean];// 顺序要对应
-    
+
     超出越界部分，采用联合类型：data[3] = false, // 3可以存number，string,boolean
 
 4、联合类型：可以存不同类型
@@ -131,7 +131,7 @@ clss Studen extends Person { // 继承抽象类必须实现所有的抽象方法
         (x:number,y:number):number
     }
     let fn: IFn = function(x:number,y:number):number{return x + y}
-    
+
     // 定义一个接受MouseEvent类型参数的函数结构
     interface MouseEveatCallBack{
         (e: MouseEvent): any
@@ -382,4 +382,13 @@ function broken(name: string | null): string {
     return postfix(name)
 }
 broken(null)
+```
+
+24、vue中声明全局Window
+
+```
+在.d.ts中添加
+  interface Window {
+    test: string
+  }
 ```
