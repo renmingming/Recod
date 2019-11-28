@@ -54,6 +54,8 @@
 
 24、**convert** 命令处理图像
 
+25、web播放svga动画：**svgaplayerweb**
+
 ## 实用代码
 1、移动适配代码：
   ```
