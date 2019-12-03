@@ -82,7 +82,7 @@ rollback;
   ```
   begin;
   lock table table_name in acess exclusive mode;
- 
+
   table_name表被锁定，知道事务结束，并且要完成事务，必须回滚或者提交事务 commit|| end transaction || rollback;
   ```
 
@@ -90,8 +90,8 @@ rollback;
 
   ```
   设置权限语法
-    grant privilege [,...] 
-    on object [,...] 
+    grant privilege [,...]
+    on object [,...]
     to {public | GROUP group | username}
 
     privilege − 值可以为：SELECT，INSERT，UPDATE，DELETE， RULE，ALL。
@@ -114,7 +114,13 @@ rollback;
 10、链表查询
 
 ```
-$receiver_sql = "select d.receiver_id as user_id,sum(d.duration) total_duration,max(d.created_at) 
-from dialogs as d left join users as u on d.receiver_id = u.id 
+$receiver_sql = "select d.receiver_id as user_id,sum(d.duration) total_duration,max(d.created_at)
+from dialogs as d left join users as u on d.receiver_id = u.id
 where u.user_type = :user_type and d.duration > 0 and d.created_at > :begin_at and d.created_at < :end_at GROUP BY user_id ORDER BY total_duration desc;";
+```
+
+11、联合索引
+
+```
+create index user_id_currency_id_on_balances on balances(user_id,currency_id);
 ```
