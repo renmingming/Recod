@@ -56,6 +56,8 @@
 
 25、web播放svga动画：**svgaplayerweb**
 
+26、查看css未使用的代码--谷歌: **Sources->Coverage**
+
 ## 实用代码
 1、移动适配代码：
   ```
