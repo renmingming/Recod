@@ -18,7 +18,7 @@
 
 6、防止xss攻击：**js-xss**
 
-7、vue后台管理系统： **iview-admin**
+7、vue后台管理系统： **iview-admin** **https://flatlogic.com/templates/sing-app-vue-dashboard**
 
 8、思维图：百度脑图 http://naotu.baidu.com/
 
@@ -57,6 +57,12 @@
 25、web播放svga动画：**svgaplayerweb**
 
 26、查看css未使用的代码--谷歌: **Sources->Coverage**
+
+27、加载效果：**https://cssfx.netlify.com/**
+
+28、图标生成 **https://www.faviator.xyz/**
+
+19、浏览器播放m3u8格式视频 **https://github.com/video-dev/hls.js/**
 
 ## 实用代码
 1、移动适配代码：
@@ -611,6 +617,20 @@ overflow-scrolling: touch;
 44、图片六边形
 ```
 clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+```
+
+45、浏览器播放m3u8格式视频
+```
+<script src="https://cdn.jsdelivr.net/hls.js/latest/hls.min.js"></script>
+<script>
+  var video = document.getElementById('video');
+  if(Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource('https://meetstatic.hotkk.cn/agora/record/20200108/3172/0ec592b19c4bfaf06854b4b883558f8b_s_72_1578448379600__uid_s_72__uid_e_video.m3u8');
+    console.log(hls.media);
+    hls.attachMedia(video);
+  }
+</script>
 ```
 
 
