@@ -15,7 +15,6 @@
 
 5、根据链接生产二维码： **jr-qrcode**
 
-
 6、防止xss攻击：**js-xss**
 
 7、vue后台管理系统： **iview-admin** **https://flatlogic.com/templates/sing-app-vue-dashboard**
@@ -62,7 +61,9 @@
 
 28、图标生成 **https://www.faviator.xyz/**
 
-19、浏览器播放m3u8格式视频 **https://github.com/video-dev/hls.js/**
+29、浏览器播放m3u8格式视频 **https://github.com/video-dev/hls.js/**
+
+30、进度条 **nprogress**
 
 ## 实用代码
 1、移动适配代码：
