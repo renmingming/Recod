@@ -161,3 +161,11 @@ php cli.php async start >> log/async.log
 ```
 crontab -e
 ```
+
+16、翻墙https://cp.v2tun.com/aff.php?aff=172
+
+```
+手机需要shadowrocket 
+电脑软件clashx
+软路由：https://conversun.com/2019/08/19/OpenClash-SmartDns/
+```

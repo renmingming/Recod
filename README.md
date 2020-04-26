@@ -40,6 +40,7 @@
 17、移动端组件库vue：Mand Mobile
 
 18、雪碧图：https://www.toptal.com/developers/css/sprite-generator
+    webpack-spritesmith插件
 
 19、前端错误收集：**jstracker**
 
@@ -55,7 +56,7 @@
 
 25、web播放svga动画：**svgaplayerweb**
 
-26、查看css未使用的代码--谷歌: **Sources->Coverage**
+26、查看代码未使用的代码--谷歌: **Coverage** 红色的代表未使用
 
 27、加载效果：**https://cssfx.netlify.com/**
 
@@ -64,6 +65,8 @@
 29、浏览器播放m3u8格式视频 **https://github.com/video-dev/hls.js/**
 
 30、进度条 **nprogress**
+
+31、网络传输性能检测工具----谷歌插件**Page Speed**
 
 ## 实用代码
 1、移动适配代码：
