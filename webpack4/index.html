@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Output Management</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<button id="add">添加</button>
+<button id="tip">添加Tip</button>
+
+</body>
+<script>
+const modal = new Modal();
+modal.open();
+let num = 1;
+document.getElementById('add').onclick = function() {
+  let res = {
+    'url': 'http://duoduo.com:8080/m/users/my_bill?sid=1314521s0f48ec2bba919e864c783e26dcc11ef306'
+  };
+  const modal1 = new Modal({
+    title: 'title ' + num++,
+    okCallback() {
+      console.log('成功');
+      modal1.close();
+    },
+    cancelCallback() {
+      console.log('取消');
+      modal1.close();
+    }
+  });
+  modal1.open();
+}
+document.getElementById('tip').onclick = function() {
+  const modal1 = new Modal({
+    content: 'tip ' + num++,
+    type: 'tip',
+    close: () => {
+      console.log('自动关闭了');
+    }
+  });
+  modal1.open();
+}
+</script>
+</html>
