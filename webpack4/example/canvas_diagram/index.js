@@ -42,14 +42,6 @@ canvas.onmousedown = function (e) {
 canvas.onmousemove = function (e) {
   const xStart = mouseStart.get('x'),
     yStart = mouseStart.get('y');
-  const pos = positionInCanvas(e, canvasLeft, canvasTop);
-  mouseStart.set('x', pos.x);
-  mouseStart.set('y', pos.y);
-  if (ctx.isPointInPath(xStart, yStart)) {
-    console.log(diagram);
-    draggingDiagram = diagram;
-    return;
-  }
   if (draggingDiagram !== null) {
     const pos = positionInCanvas(e, canvasLeft, canvasTop),
       diff = new Map([
@@ -95,8 +87,8 @@ function init() {
   const unitAngle = Math.PI * 2 / 40;
   let angle = -0.3, // 初始角度
     radius = 200;
-  for (let i = 0; i <= 35; i++) {
-    radius += 2;
+  for (let i = 0; i <= 50; i++) {
+    radius += 3;
     let diagram = new Diagram(350, 300, radius, angle,  i);
     diagramArray.push(diagram);
     drawDiagramPath(350, 300, radius, ctx, angle,  i);
@@ -104,7 +96,7 @@ function init() {
   }
 }
 
-function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1, strokeStyle = '#dfdfdf', fillStyle = '#dfdfdf') {
+function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1) {
   ctx.beginPath();
   let xLength = radius * Math.cos(angle);
   let yLength = radius * Math.sin(angle);
@@ -115,7 +107,7 @@ function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1, strokeS
   ctx.textAlign = 'center';
   ctx.fillText(text, centerX + xLength, centerY - yLength);
   ctx.fillStyle = 'red';
-  drawRoundedRect(strokeStyle, fillStyle, centerX + xLength, centerY - yLength - 10, 50, 20, 4);
+  drawRoundedRect('#dfdfdf', '#dfdfdf', centerX + xLength, centerY - yLength - 10, 50, 20, 4);
   ctx.closePath();
 }
 
