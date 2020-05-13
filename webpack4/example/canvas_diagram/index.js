@@ -110,23 +110,19 @@ function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1) {
   ctx.lineTo(lineEndX, lineEndY);
   ctx.strokeStyle = '#dfdfdf';
   ctx.stroke();
-  ctx.closePath();
 
   drawRoundedRect('#dfdfdf', '#dfdfdf', centerX + xLength, centerY - yLength - rectHeight / 2, rectWidth, rectHeight, 4);
 
-  ctx.beginPath();
-  ctx.textAlign = 'center';
-  ctx.fillStyle = 'red';
-  ctx.font = `14px ${rectHeight}px`;
-  ctx.fillText(text, centerX + xLength + rectWidth / 2, centerY - yLength);
-  ctx.closePath();
-
-  ctx.beginPath();
   // 求两点中心点坐标
   let lineCenterX = (lineEndX - canvasCenterX) / 2 + canvasCenterX;
   let lineCenterY = (lineEndY - canvasCenterY) / 2 + canvasCenterY;
   ctx.arc(lineCenterX, lineCenterY, 10, 0,Math.PI*2);
   ctx.fill();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'red';
+  ctx.font = `14px ${rectHeight}px`;
+  ctx.fillText(text, centerX + xLength + rectWidth / 2, centerY - yLength);
   ctx.closePath();
 }
 
