@@ -9,6 +9,7 @@ let mouseStart = new Map([
   diagramArray = [], // 路径数组
   draggingDiagram = null; // 记录正在
 
+
 class Diagram {
   constructor(centerX, centerY, radius, angle, text) {
     this.centerX = centerX;
@@ -81,17 +82,20 @@ function positionInCanvas(e, canvasLeft, canvasTop) {
   }
 }
 
+let rectWidth = 80,
+  rectHeight = 28,
+  canvasCenterX = document.getElementById('canvas').clientWidth / 2,
+  canvasCenterY = document.getElementById('canvas').clientHeight / 2;
 init();
-
 function init() {
   const unitAngle = Math.PI * 2 / 40;
   let angle = -0.3, // 初始角度
-    radius = 200;
+    radius = canvasCenterY * 0.66;
   for (let i = 0; i <= 50; i++) {
     radius += 3;
-    let diagram = new Diagram(350, 300, radius, angle,  i);
+    let diagram = new Diagram(canvasCenterX, canvasCenterY, radius, angle,  i + '测试消息');
     diagramArray.push(diagram);
-    drawDiagramPath(350, 300, radius, ctx, angle,  i);
+    drawDiagramPath(canvasCenterX, canvasCenterY, radius, ctx, angle,  i + '测试消息');
     angle += unitAngle;
   }
 }
@@ -100,14 +104,29 @@ function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1) {
   ctx.beginPath();
   let xLength = radius * Math.cos(angle);
   let yLength = radius * Math.sin(angle);
-  ctx.moveTo(350, 300);
-  ctx.lineTo(centerX + xLength + 25, centerY - yLength);
-  // ctx.strokeStyle = 'red';
+  let lineEndX = centerX + xLength + rectHeight / 2;
+  let lineEndY = centerY - yLength;
+  ctx.moveTo(canvasCenterX, canvasCenterY);
+  ctx.lineTo(lineEndX, lineEndY);
+  ctx.strokeStyle = '#dfdfdf';
   ctx.stroke();
+  ctx.closePath();
+
+  drawRoundedRect('#dfdfdf', '#dfdfdf', centerX + xLength, centerY - yLength - rectHeight / 2, rectWidth, rectHeight, 4);
+
+  ctx.beginPath();
   ctx.textAlign = 'center';
-  ctx.fillText(text, centerX + xLength, centerY - yLength);
   ctx.fillStyle = 'red';
-  drawRoundedRect('#dfdfdf', '#dfdfdf', centerX + xLength, centerY - yLength - 10, 50, 20, 4);
+  ctx.font = `14px ${rectHeight}px`;
+  ctx.fillText(text, centerX + xLength + rectWidth / 2, centerY - yLength);
+  ctx.closePath();
+
+  ctx.beginPath();
+  // 求两点中心点坐标
+  let lineCenterX = (lineEndX - canvasCenterX) / 2 + canvasCenterX;
+  let lineCenterY = (lineEndY - canvasCenterY) / 2 + canvasCenterY;
+  ctx.arc(lineCenterX, lineCenterY, 10, 0,Math.PI*2);
+  ctx.fill();
   ctx.closePath();
 }
 
@@ -129,6 +148,6 @@ function drawRoundedRect(strokeStyle,fillStyle,x,y,width,height,radius){
   roundedRect(x,y,width,height,radius);
   ctx.strokeStyle = strokeStyle;
   ctx.fillStyle = fillStyle;
-  ctx.stroke();
   ctx.fill();
+  ctx.stroke();
 }
