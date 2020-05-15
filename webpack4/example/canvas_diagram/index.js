@@ -35,9 +35,7 @@ canvas.onmousedown = function (e) {
     const xStart = mouseStart.get('x'),
       yStart = mouseStart.get('y');
     if (ctx.isPointInPath(xStart, yStart)) {
-      console.log(diagram);
       draggingDiagram = diagram;
-      return;
     }
   }
   centerTitle();
@@ -47,7 +45,7 @@ canvas.onmousemove = function (e) {
   const xStart = mouseStart.get('x'),
     yStart = mouseStart.get('y');
   if (draggingDiagram !== null) {
-    const pos = positionInCanvas(e, canvasLeft, canvasTop),
+    let pos = positionInCanvas(e, canvasLeft, canvasTop),
       diff = new Map([
         ['offsetX', pos.x - xStart],
         ['offsetY', pos.y - yStart]
@@ -67,8 +65,8 @@ canvas.onmousemove = function (e) {
 }
 
 canvas.onmouseup = function (e) {
-  if (draggingDiagram !== null) {
-    const pos = positionInCanvas(e, canvasLeft, canvasTop),
+  if (draggingDiagram) {
+    let pos = positionInCanvas(e, canvasLeft, canvasTop),
       offsetMap = new Map([
         ['offsetX', pos.x - mouseStart.get('x')],
         ['offsetY', pos.y - mouseStart.get('y')]
@@ -102,7 +100,6 @@ function init() {
     drawDiagramPath(canvasCenterX, canvasCenterY, radius, ctx, angle,  i + '测试消息', i);
     angle += unitAngle;
   }
-  console.log(diagramArray);
   centerTitle();
 }
 
