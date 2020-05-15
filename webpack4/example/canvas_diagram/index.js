@@ -11,16 +11,17 @@ let mouseStart = new Map([
 
 
 class Diagram {
-  constructor(centerX, centerY, radius, angle, text) {
+  constructor(centerX, centerY, radius, angle, text, typeVal) {
     this.centerX = centerX;
     this.centerY = centerY;
     this.radius = radius;
     this.angle = angle;
     this.text = text;
+    this.typeVal = typeVal;
   }
 
   createPath() {
-    drawDiagramPath(this.centerX, this.centerY, this.radius, ctx, this.angle, this.text);
+    drawDiagramPath(this.centerX, this.centerY, this.radius, ctx, this.angle, this.text, this.typeVal);
   }
 }
 
@@ -28,6 +29,7 @@ canvas.onmousedown = function (e) {
   const pos = positionInCanvas(e, canvasLeft, canvasTop);
   mouseStart.set('x', pos.x);
   mouseStart.set('y', pos.y);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let diagram of diagramArray) {
     diagram.createPath();
     const xStart = mouseStart.get('x'),
@@ -38,6 +40,7 @@ canvas.onmousedown = function (e) {
       return;
     }
   }
+  centerTitle();
 }
 
 canvas.onmousemove = function (e) {
@@ -55,10 +58,11 @@ canvas.onmousemove = function (e) {
     draggingDiagram.centerY += diff.get('offsetY');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let diagram of diagramArray) {
-      drawDiagramPath(diagram.centerX, diagram.centerY, diagram.radius, ctx, diagram.angle, diagram.text)
+      drawDiagramPath(diagram.centerX, diagram.centerY, diagram.radius, ctx, diagram.angle, diagram.text, diagram.typeVal)
     }
     draggingDiagram.centerX = tempCenterX;
     draggingDiagram.centerY = tempCenterY;
+    centerTitle();
   }
 }
 
@@ -93,14 +97,16 @@ function init() {
     radius = canvasCenterY * 0.66;
   for (let i = 0; i <= 50; i++) {
     radius += 3;
-    let diagram = new Diagram(canvasCenterX, canvasCenterY, radius, angle,  i + '测试消息');
+    let diagram = new Diagram(canvasCenterX, canvasCenterY, radius, angle,  i + '测试消息', i);
     diagramArray.push(diagram);
-    drawDiagramPath(canvasCenterX, canvasCenterY, radius, ctx, angle,  i + '测试消息');
+    drawDiagramPath(canvasCenterX, canvasCenterY, radius, ctx, angle,  i + '测试消息', i);
     angle += unitAngle;
   }
+  console.log(diagramArray);
+  centerTitle();
 }
 
-function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1) {
+function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1, typeVal = 1) {
   ctx.beginPath();
   let xLength = radius * Math.cos(angle);
   let yLength = radius * Math.sin(angle);
@@ -121,9 +127,22 @@ function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1) {
 
   ctx.textAlign = 'center';
   ctx.fillStyle = 'red';
-  ctx.font = `14px ${rectHeight}px`;
-  ctx.fillText(text, centerX + xLength + rectWidth / 2, centerY - yLength);
+  ctx.font = `10px/22px sans-serif`;
+  ctx.fillText(typeVal, lineCenterX, lineCenterY + 3);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'red';
+  ctx.font = `12px/28px sans-serif`;
+  ctx.fillText(text, centerX + xLength + rectWidth / 2, centerY - yLength + 4);
   ctx.closePath();
+}
+
+function centerTitle(text = '中心标题') {
+  drawRoundedRect('green', 'green', canvasCenterX - 50, canvasCenterY - 17, 100, 34, 4);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff';
+  ctx.font = `bold 16px/34px sans-serif`;
+  ctx.fillText(text, canvasCenterX, canvasCenterY + 5);
 }
 
 function roundedRect(x,y,width,height,radius){
