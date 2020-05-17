@@ -6,9 +6,15 @@ let mouseStart = new Map([
     ['x', null],
     ['y', null]
   ]),
+  centerTitleText = '',
   diagramArray = [], // 路径数组
   draggingDiagram = null; // 记录正在
 
+  let rectWidth = 80,
+  rectHeight = 28,
+  touchtime = new Date().getTime(),
+  canvasCenterX = document.getElementById('canvas').clientWidth / 2,
+  canvasCenterY = document.getElementById('canvas').clientHeight / 2;
 
 class Diagram {
   constructor(centerX, centerY, radius, angle, text, typeVal) {
@@ -22,6 +28,22 @@ class Diagram {
 
   createPath() {
     drawDiagramPath(this.centerX, this.centerY, this.radius, ctx, this.angle, this.text, this.typeVal);
+  }
+}
+canvas.onclick = function(e) {
+  if (new Date().getTime() - touchtime > 500) {
+    touchtime = new Date().getTime();
+    return;
+  }
+  const pos = positionInCanvas(e, canvasLeft, canvasTop);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let diagram of diagramArray) {
+    diagram.createPath();
+    if (ctx.isPointInPath(pos.x, pos.y)) {
+      console.log(diagram)
+      let keyword = diagram.text;
+      updateData(keyword);
+    }
   }
 }
 
@@ -84,20 +106,28 @@ function positionInCanvas(e, canvasLeft, canvasTop) {
   }
 }
 
-let rectWidth = 80,
-  rectHeight = 28,
-  canvasCenterX = document.getElementById('canvas').clientWidth / 2,
-  canvasCenterY = document.getElementById('canvas').clientHeight / 2;
-init();
-function init() {
+  updateData('李健军');
+  function updateData(keyword) {
+    centerTitleText = keyword;
+    $.get('http://47.103.121.177/Knowledge/Search?keywords=' + keyword, function(res) {
+      init(res);
+    })
+  }
+function init(res) {
   const unitAngle = Math.PI * 2 / 40;
   let angle = -0.3, // 初始角度
     radius = canvasCenterY * 0.66;
-  for (let i = 0; i <= 50; i++) {
+  for (let i = 0; i < res.length; i++) {
     radius += 3;
-    let diagram = new Diagram(canvasCenterX, canvasCenterY, radius, angle,  i + '测试消息', i);
+    let name = '',
+    value = '';
+    if (res[i]) {
+      name = res[i].name,
+      value = res[i].value;
+    }
+    let diagram = new Diagram(canvasCenterX, canvasCenterY, radius, angle,  name, value);
     diagramArray.push(diagram);
-    drawDiagramPath(canvasCenterX, canvasCenterY, radius, ctx, angle,  i + '测试消息', i);
+    drawDiagramPath(canvasCenterX, canvasCenterY, radius, ctx, angle,  name, value);
     angle += unitAngle;
   }
   centerTitle();
@@ -134,12 +164,12 @@ function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1, typeVal
   ctx.closePath();
 }
 
-function centerTitle(text = '中心标题') {
+function centerTitle() {
   drawRoundedRect('green', 'green', canvasCenterX - 50, canvasCenterY - 17, 100, 34, 4);
   ctx.textAlign = 'center';
   ctx.fillStyle = '#fff';
   ctx.font = `bold 16px/34px sans-serif`;
-  ctx.fillText(text, canvasCenterX, canvasCenterY + 5);
+  ctx.fillText(centerTitleText, canvasCenterX, canvasCenterY + 5);
 }
 
 function roundedRect(x,y,width,height,radius){
