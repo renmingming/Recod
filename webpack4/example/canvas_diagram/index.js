@@ -1,3 +1,5 @@
+import('./index.scss');
+
 const canvas = document.getElementById('canvas');
 const canvasLeft = canvas.getBoundingClientRect().left,
   canvasTop = canvas.getBoundingClientRect().top,
@@ -10,27 +12,36 @@ let mouseStart = new Map([
   diagramArray = [], // 路径数组
   draggingDiagram = null; // 记录正在
 
-  let rectWidth = 80,
+let rectWidth = 80,
   rectHeight = 28,
   touchtime = new Date().getTime(),
   canvasCenterX = document.getElementById('canvas').clientWidth / 2,
   canvasCenterY = document.getElementById('canvas').clientHeight / 2;
 
 class Diagram {
-  constructor(centerX, centerY, radius, angle, text, typeVal) {
+  constructor(centerX, centerY, radius, angle, text, typeVal, textColor, bgColor) {
     this.centerX = centerX;
     this.centerY = centerY;
     this.radius = radius;
     this.angle = angle;
     this.text = text;
     this.typeVal = typeVal;
+    this.textColor = textColor;
+    this.bgColor = bgColor;
   }
 
-  createPath() {
-    drawDiagramPath(this.centerX, this.centerY, this.radius, ctx, this.angle, this.text, this.typeVal);
+  createPath(textColor, bgColor) {
+    if (!textColor) {
+      textColor = this.textColor;
+    }
+    if (!bgColor) {
+      bgColor = this.bgColor;
+    }
+    drawDiagramPath(this.centerX, this.centerY, this.radius, ctx, this.angle, this.text, this.typeVal, textColor, bgColor);
   }
 }
-canvas.onclick = function(e) {
+
+canvas.onclick = function (e) {
   if (new Date().getTime() - touchtime > 500) {
     touchtime = new Date().getTime();
     return;
@@ -40,8 +51,8 @@ canvas.onclick = function(e) {
   for (let diagram of diagramArray) {
     diagram.createPath();
     if (ctx.isPointInPath(pos.x, pos.y)) {
-      console.log(diagram)
       let keyword = diagram.text;
+      diagramArray = [];
       updateData(keyword);
     }
   }
@@ -57,6 +68,8 @@ canvas.onmousedown = function (e) {
     const xStart = mouseStart.get('x'),
       yStart = mouseStart.get('y');
     if (ctx.isPointInPath(xStart, yStart)) {
+      diagram.textColor = '#fff';
+      diagram.bgColor = 'green';
       draggingDiagram = diagram;
     }
   }
@@ -64,26 +77,50 @@ canvas.onmousedown = function (e) {
 }
 
 canvas.onmousemove = function (e) {
-  const xStart = mouseStart.get('x'),
-    yStart = mouseStart.get('y');
-  if (draggingDiagram !== null) {
-    let pos = positionInCanvas(e, canvasLeft, canvasTop),
-      diff = new Map([
-        ['offsetX', pos.x - xStart],
-        ['offsetY', pos.y - yStart]
-      ]);
-    let tempCenterX = draggingDiagram.centerX,
-      tempCenterY = draggingDiagram.centerY;
-    draggingDiagram.centerX += diff.get('offsetX');
-    draggingDiagram.centerY += diff.get('offsetY');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let diagram of diagramArray) {
-      drawDiagramPath(diagram.centerX, diagram.centerY, diagram.radius, ctx, diagram.angle, diagram.text, diagram.typeVal)
+  debounce(function () {
+    const xStart = mouseStart.get('x'),
+      yStart = mouseStart.get('y');
+    if (draggingDiagram !== null) {
+      let pos = positionInCanvas(e, canvasLeft, canvasTop),
+        diff = new Map([
+          ['offsetX', pos.x - xStart],
+          ['offsetY', pos.y - yStart]
+        ]);
+      let tempCenterX = draggingDiagram.centerX,
+        tempCenterY = draggingDiagram.centerY;
+      draggingDiagram.centerX += diff.get('offsetX');
+      draggingDiagram.centerY += diff.get('offsetY');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let diagram of diagramArray) {
+        diagram.createPath();
+        if (ctx.isPointInPath(pos.x, pos.y)) {
+          diagram.textColor = '#fff';
+          diagram.bgColor = 'green';
+        } else {
+          diagram.textColor = 'red';
+          diagram.bgColor = '#dfdfdf';
+        }
+        // drawDiagramPath(diagram.centerX, diagram.centerY, diagram.radius, ctx, diagram.angle, diagram.text, diagram.typeVal, '#fff', 'green')
+      }
+      draggingDiagram.centerX = tempCenterX;
+      draggingDiagram.centerY = tempCenterY;
+      centerTitle();
+    } else {
+      let pos = positionInCanvas(e, canvasLeft, canvasTop);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let diagram of diagramArray) {
+        diagram.createPath();
+        if (ctx.isPointInPath(pos.x, pos.y)) {
+          diagram.textColor = '#fff';
+          diagram.bgColor = 'green';
+        } else {
+          diagram.textColor = 'red';
+          diagram.bgColor = '#dfdfdf';
+        }
+      }
+      centerTitle();
     }
-    draggingDiagram.centerX = tempCenterX;
-    draggingDiagram.centerY = tempCenterY;
-    centerTitle();
-  }
+  }, 100)()
 }
 
 canvas.onmouseup = function (e) {
@@ -95,6 +132,8 @@ canvas.onmouseup = function (e) {
       ]);
     draggingDiagram.centerX += offsetMap.get('offsetX');
     draggingDiagram.centerY += offsetMap.get('offsetY');
+    draggingDiagram.textColor = 'red';
+    draggingDiagram.bgColor = '#dfdfdf';
     draggingDiagram = null;
   }
 }
@@ -106,13 +145,16 @@ function positionInCanvas(e, canvasLeft, canvasTop) {
   }
 }
 
-  updateData('李健军');
-  function updateData(keyword) {
-    centerTitleText = keyword;
-    $.get('http://47.103.121.177/Knowledge/Search?keywords=' + keyword, function(res) {
-      init(res);
-    })
-  }
+updateData('李健军');
+
+function updateData(keyword) {
+  centerTitleText = keyword;
+  $.get('http://47.103.121.177/Knowledge/Search?keywords=' + keyword, function (res) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    init(res);
+  })
+}
+
 function init(res) {
   const unitAngle = Math.PI * 2 / 40;
   let angle = -0.3, // 初始角度
@@ -120,20 +162,20 @@ function init(res) {
   for (let i = 0; i < res.length; i++) {
     radius += 3;
     let name = '',
-    value = '';
+      value = '';
     if (res[i]) {
       name = res[i].name,
-      value = res[i].value;
+        value = res[i].value;
     }
-    let diagram = new Diagram(canvasCenterX, canvasCenterY, radius, angle,  name, value);
+    let diagram = new Diagram(canvasCenterX, canvasCenterY, radius, angle, name, value);
     diagramArray.push(diagram);
-    drawDiagramPath(canvasCenterX, canvasCenterY, radius, ctx, angle,  name, value);
+    drawDiagramPath(canvasCenterX, canvasCenterY, radius, ctx, angle, name, value);
     angle += unitAngle;
   }
   centerTitle();
 }
 
-function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1, typeVal = 1) {
+function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1, typeVal = 1, textColor = 'red', bgColor = '#dfdfdf') {
   ctx.beginPath();
   let xLength = radius * Math.cos(angle);
   let yLength = radius * Math.sin(angle);
@@ -141,24 +183,24 @@ function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1, typeVal
   let lineEndY = centerY - yLength;
   ctx.moveTo(canvasCenterX, canvasCenterY);
   ctx.lineTo(lineEndX, lineEndY);
-  ctx.strokeStyle = '#dfdfdf';
+  ctx.strokeStyle = bgColor;
   ctx.stroke();
 
-  drawRoundedRect('#dfdfdf', '#dfdfdf', centerX + xLength, centerY - yLength - rectHeight / 2, rectWidth, rectHeight, 4);
+  drawRoundedRect(bgColor, bgColor, centerX + xLength, centerY - yLength - rectHeight / 2, rectWidth, rectHeight, 4);
 
   // 求两点中心点坐标
   let lineCenterX = (lineEndX - canvasCenterX) / 2 + canvasCenterX;
   let lineCenterY = (lineEndY - canvasCenterY) / 2 + canvasCenterY;
-  ctx.arc(lineCenterX, lineCenterY, 10, 0,Math.PI*2);
+  ctx.arc(lineCenterX, lineCenterY, 10, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.textAlign = 'center';
-  ctx.fillStyle = 'red';
+  ctx.fillStyle = textColor;
   ctx.font = `10px/22px sans-serif`;
   ctx.fillText(typeVal, lineCenterX, lineCenterY + 3);
 
   ctx.textAlign = 'center';
-  ctx.fillStyle = 'red';
+  ctx.fillStyle = textColor;
   ctx.font = `12px/28px sans-serif`;
   ctx.fillText(text, centerX + xLength + rectWidth / 2, centerY - yLength + 4);
   ctx.closePath();
@@ -172,24 +214,34 @@ function centerTitle() {
   ctx.fillText(centerTitleText, canvasCenterX, canvasCenterY + 5);
 }
 
-function roundedRect(x,y,width,height,radius){
-  if(width <= 0 || height <= 0){
-    ctx.arc(x,y,radius,0,Math.PI*2);
+function roundedRect(x, y, width, height, radius) {
+  if (width <= 0 || height <= 0) {
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
     return;
   }
 
-  ctx.moveTo(x+radius,y);
-  ctx.arcTo(x+width,y,x+width,y+height,radius);
-  ctx.arcTo(x+width,y+height,x,y+height,radius);
-  ctx.arcTo(x,y+height,x,y,radius);
-  ctx.arcTo(x,y,x+radius,y,radius);
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + width, y, x + width, y + height, radius);
+  ctx.arcTo(x + width, y + height, x, y + height, radius);
+  ctx.arcTo(x, y + height, x, y, radius);
+  ctx.arcTo(x, y, x + radius, y, radius);
 }
 
-function drawRoundedRect(strokeStyle,fillStyle,x,y,width,height,radius){
+function drawRoundedRect(strokeStyle, fillStyle, x, y, width, height, radius) {
   ctx.beginPath();
-  roundedRect(x,y,width,height,radius);
+  roundedRect(x, y, width, height, radius);
   ctx.strokeStyle = strokeStyle;
   ctx.fillStyle = fillStyle;
   ctx.fill();
   ctx.stroke();
+}
+
+function debounce(fn, delay) {
+  let timer = null;
+  return function () {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(fn, delay);
+  }
 }
