@@ -91,12 +91,6 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       _: 'lodash'
-    }),
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: process.env.NODE_ENV === 'development' ? 'canvas_diagram.js' : 'canvas_diagram.[chunkhash].css',
-      chunkFilename: process.env.NODE_ENV === 'development' ? 'canvas_diagram.css' : 'canvas_diagram.[chunkhash].css'
     })
   ]
 };
