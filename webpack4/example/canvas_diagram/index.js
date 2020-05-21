@@ -88,7 +88,6 @@
     }
 
     this.canvas.onmousemove = function (e) {
-      console.log(_this);
       debounce(function () {
         const xStart = _this.mouseStart.get('x'),
           yStart = _this.mouseStart.get('y');
@@ -176,11 +175,17 @@
     })
   }
   createCanvas.prototype.init = function(res) {
-    const unitAngle = Math.PI * 2 / 40;
-    let angle = -0.3, // 初始角度
+    let unitAngle = Math.PI * 2 / 40;
+    let angle = -0.4, // 初始角度
       radius = this.canvasCenterY * 0.66;
     for (let i = 0; i < res.length; i++) {
       radius += 3;
+      if (i > 9) {
+        unitAngle = Math.PI * 2 / 20;
+      }
+      if (i > 12) {
+        unitAngle = Math.PI * 2 / 45;
+      }
       let name = '',
         value = '';
       if (res[i]) {
@@ -197,34 +202,40 @@
 
   createCanvas.prototype.drawDiagramPath = function(centerX, centerY, radius, angle, text = 1, typeVal = 1, textColor = 'red', bgColor = '#dfdfdf') {
     let ctx = this.ctx;
-    ctx.beginPath();
     let xLength = radius * Math.cos(angle);
     let yLength = radius * Math.sin(angle);
     let lineEndX = centerX + xLength + this.rectHeight / 2;
     let lineEndY = centerY - yLength;
+    // 求两点中心点坐标
+    let lineCenterX = (lineEndX - this.canvasCenterX) / 2 + this.canvasCenterX;
+    let lineCenterY = (lineEndY - this.canvasCenterY) / 2 + this.canvasCenterY;
+
+    ctx.beginPath();
     ctx.moveTo(this.canvasCenterX, this.canvasCenterY);
     ctx.lineTo(lineEndX, lineEndY);
     ctx.strokeStyle = bgColor;
     ctx.stroke();
+    ctx.closePath();
 
-    drawRoundedRect(bgColor, bgColor, centerX + xLength, centerY - yLength - this.rectHeight / 2, this.rectWidth, this.rectHeight, 4, ctx);
-
-    // 求两点中心点坐标
-    let lineCenterX = (lineEndX - this.canvasCenterX) / 2 + this.canvasCenterX;
-    let lineCenterY = (lineEndY - this.canvasCenterY) / 2 + this.canvasCenterY;
+    ctx.beginPath();
     ctx.arc(lineCenterX, lineCenterY, 10, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.closePath();
+    ctx.stroke();
     ctx.fill();
 
     ctx.textAlign = 'center';
-    ctx.fillStyle = textColor;
+    ctx.fillStyle = bgColor;
     ctx.font = `10px/22px sans-serif`;
     ctx.fillText(typeVal, lineCenterX, lineCenterY + 3);
+
+    drawRoundedRect(bgColor, bgColor, centerX + xLength, centerY - yLength - this.rectHeight / 2, this.rectWidth, this.rectHeight, 4, ctx);
+
 
     ctx.textAlign = 'center';
     ctx.fillStyle = textColor;
     ctx.font = `12px/28px sans-serif`;
     ctx.fillText(text, centerX + xLength + this.rectWidth / 2, centerY - yLength + 4);
-    ctx.closePath();
   }
 
   createCanvas.prototype.centerTitle = function() {
@@ -245,16 +256,16 @@
       this.angle = angle;
       this.text = text;
       this.typeVal = typeVal;
-      this.textColor1 = textColor;
-      this.bgColor1 = bgColor;
+      this.textColor = textColor;
+      this.bgColor = bgColor;
     }
 
     createPath(textColor, bgColor) {
       if (!textColor) {
-        textColor = this.textColor1;
+        textColor = this.textColor;
       }
       if (!bgColor) {
-        bgColor = this.bgColor1;
+        bgColor = this.bgColor;
       }
       this.canvasObj.drawDiagramPath(this.centerX, this.centerY, this.radius, this.angle, this.text, this.typeVal, textColor, bgColor);
     }
@@ -280,6 +291,7 @@
     ctx.fillStyle = fillStyle;
     ctx.fill();
     ctx.stroke();
+    ctx.closePath();
   }
 
   function debounce(fn, delay) {
