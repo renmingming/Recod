@@ -17,7 +17,13 @@
 
 </body>
 <script>
-var createCanvas = new createCanvas();
+var createCanvas = new createCanvas({
+  rectWidth: 80,
+  rectHeight: 24,
+  clickCallback:function(res) {
+      console.log(res.text);
+  }
+});
 createCanvas.updateData('李健军');
 </script>
 </html>

@@ -1,31 +1,18 @@
 
-// const canvas = document.getElementById('canvas');
-// const canvasLeft = canvas.getBoundingClientRect().left,
-//   canvasTop = canvas.getBoundingClientRect().top,
-//   ctx = canvas.getContext('2d');
-// let mouseStart = new Map([
-//     ['x', null],
-//     ['y', null]
-//   ]),
-//   centerTitleText = '',
-//   diagramArray = [], // 路径数组
-//   draggingDiagram = null; // 记录正在
-//
-// let rectWidth = 80,
-//   rectHeight = 28,
-//   touchtime = new Date().getTime(),
-//   canvasCenterX = document.getElementById('canvas').clientWidth / 2,
-//   canvasCenterY = document.getElementById('canvas').clientHeight / 2;
 (function() {
   const defaultConfig = {
     elId: 'canvas',
     rectWidth: 80,
     rectHeight: 28,
-    textColor: 'red',
+    textColor: '#fff',
     activeTextColor: '#fff',
-    bgColor: '#dfdfdf',
-    activeBgColor: 'green',
-    ajaxUrl: 'http://47.103.121.177/Knowledge/Search?keywords='
+    bgColor: '#acb0bd',
+    activeBgColor: '#f39800',
+    number: 35, // 一圈多少个，决定角度
+    ajaxUrl: 'http://47.103.121.177/Knowledge/Search?keywords=',
+    clickCallback: function() {
+
+    }
   };
   function createCanvas(params) {
     this.config = _getConfig(params);
@@ -50,9 +37,10 @@
     this.canvasCenterX = this.canvas.clientWidth / 2;
     this.canvasCenterY = this.canvas.clientHeight / 2;
     this.ajaxUrl = this.config.ajaxUrl;
+    this.clickCallback = this.config.clickCallback;
+    this.number = this.config.number;
     let _this = this;
     this.canvas.onclick = (e) => {
-      console.log(_this);
       if (new Date().getTime() - _this.touchtime > 500) {
         _this.touchtime = new Date().getTime();
         return;
@@ -65,6 +53,7 @@
           let keyword = diagram.text;
           _this.diagramArray = [];
           _this.updateData(keyword);
+          _this.clickCallback(diagram)
         }
       }
     }
@@ -175,16 +164,23 @@
     })
   }
   createCanvas.prototype.init = function(res) {
-    let unitAngle = Math.PI * 2 / 40;
+    let num = this.number;
+    let unitAngle = Math.PI * 2 / num;
     let angle = -0.4, // 初始角度
       radius = this.canvasCenterY * 0.66;
     for (let i = 0; i < res.length; i++) {
-      radius += 3;
-      if (i > 9) {
-        unitAngle = Math.PI * 2 / 20;
+      radius += 2.5;
+      if (i >= 7) {
+        unitAngle = Math.PI * 2 / (num * 0.857);
       }
-      if (i > 12) {
-        unitAngle = Math.PI * 2 / 45;
+      if (i >= 9) {
+        unitAngle = Math.PI * 2 / (num * 0.57);
+      }
+      if (i >= 11) {
+        unitAngle = Math.PI * 2 / (num * 0.857);
+      }
+      if (i > 14) {
+        unitAngle = Math.PI * 2 / (num * 1.085);
       }
       let name = '',
         value = '';
@@ -204,7 +200,8 @@
     let ctx = this.ctx;
     let xLength = radius * Math.cos(angle);
     let yLength = radius * Math.sin(angle);
-    let lineEndX = centerX + xLength + this.rectHeight / 2;
+    let addX = (this.rectWidth - text.length * 12) / 2;
+    let lineEndX = centerX + xLength + addX;
     let lineEndY = centerY - yLength;
     // 求两点中心点坐标
     let lineCenterX = (lineEndX - this.canvasCenterX) / 2 + this.canvasCenterX;
@@ -229,20 +226,20 @@
     ctx.font = `10px/22px sans-serif`;
     ctx.fillText(typeVal, lineCenterX, lineCenterY + 3);
 
-    drawRoundedRect(bgColor, bgColor, centerX + xLength, centerY - yLength - this.rectHeight / 2, this.rectWidth, this.rectHeight, 4, ctx);
+    drawRoundedRect('#fff', bgColor, centerX + xLength, centerY - yLength - this.rectHeight / 2, this.rectWidth, this.rectHeight, 13, ctx);
 
 
-    ctx.textAlign = 'center';
+    ctx.textAlign = 'left';
     ctx.fillStyle = textColor;
-    ctx.font = `12px/28px sans-serif`;
-    ctx.fillText(text, centerX + xLength + this.rectWidth / 2, centerY - yLength + 4);
+    ctx.font = `12px sans-serif`;
+    ctx.fillText(text, centerX + xLength + addX, centerY - yLength + 4);
   }
 
   createCanvas.prototype.centerTitle = function() {
-    drawRoundedRect('green', 'green', this.canvasCenterX - 50, this.canvasCenterY - 17, 100, 34, 4, this.ctx);
+    drawRoundedRect(this.activeBgColor, this.activeBgColor, this.canvasCenterX - 45, this.canvasCenterY - 15, 90, 30, 14, this.ctx);
     this.ctx.textAlign = 'center';
     this.ctx.fillStyle = '#fff';
-    this.ctx.font = `bold 16px/34px sans-serif`;
+    this.ctx.font = `bold 14px/30px sans-serif`;
     this.ctx.fillText(this.centerTitleText, this.canvasCenterX, this.canvasCenterY + 5);
   }
 
@@ -305,70 +302,3 @@
   }
   this.createCanvas = createCanvas;
 })()
-
-// function updateData(keyword) {
-//   centerTitleText = keyword;
-//   $.get('http://47.103.121.177/Knowledge/Search?keywords=' + keyword, function (res) {
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     init(res);
-//   })
-// }
-//
-// function init(res) {
-//   const unitAngle = Math.PI * 2 / 40;
-//   let angle = -0.3, // 初始角度
-//     radius = canvasCenterY * 0.66;
-//   for (let i = 0; i < res.length; i++) {
-//     radius += 3;
-//     let name = '',
-//       value = '';
-//     if (res[i]) {
-//       name = res[i].name,
-//         value = res[i].value;
-//     }
-//     let diagram = new Diagram(canvasCenterX, canvasCenterY, radius, angle, name, value);
-//     diagramArray.push(diagram);
-//     drawDiagramPath(canvasCenterX, canvasCenterY, radius, ctx, angle, name, value);
-//     angle += unitAngle;
-//   }
-//   centerTitle();
-// }
-//
-// function drawDiagramPath(centerX, centerY, radius, ctx, angle, text = 1, typeVal = 1, textColor = 'red', bgColor = '#dfdfdf') {
-//   ctx.beginPath();
-//   let xLength = radius * Math.cos(angle);
-//   let yLength = radius * Math.sin(angle);
-//   let lineEndX = centerX + xLength + rectHeight / 2;
-//   let lineEndY = centerY - yLength;
-//   ctx.moveTo(canvasCenterX, canvasCenterY);
-//   ctx.lineTo(lineEndX, lineEndY);
-//   ctx.strokeStyle = bgColor;
-//   ctx.stroke();
-//
-//   drawRoundedRect(bgColor, bgColor, centerX + xLength, centerY - yLength - rectHeight / 2, rectWidth, rectHeight, 4);
-//
-//   // 求两点中心点坐标
-//   let lineCenterX = (lineEndX - canvasCenterX) / 2 + canvasCenterX;
-//   let lineCenterY = (lineEndY - canvasCenterY) / 2 + canvasCenterY;
-//   ctx.arc(lineCenterX, lineCenterY, 10, 0, Math.PI * 2);
-//   ctx.fill();
-//
-//   ctx.textAlign = 'center';
-//   ctx.fillStyle = textColor;
-//   ctx.font = `10px/22px sans-serif`;
-//   ctx.fillText(typeVal, lineCenterX, lineCenterY + 3);
-//
-//   ctx.textAlign = 'center';
-//   ctx.fillStyle = textColor;
-//   ctx.font = `12px/28px sans-serif`;
-//   ctx.fillText(text, centerX + xLength + rectWidth / 2, centerY - yLength + 4);
-//   ctx.closePath();
-// }
-//
-// function centerTitle() {
-//   drawRoundedRect('green', 'green', canvasCenterX - 50, canvasCenterY - 17, 100, 34, 4);
-//   ctx.textAlign = 'center';
-//   ctx.fillStyle = '#fff';
-//   ctx.font = `bold 16px/34px sans-serif`;
-//   ctx.fillText(centerTitleText, canvasCenterX, canvasCenterY + 5);
-// }
