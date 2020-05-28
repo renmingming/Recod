@@ -15,7 +15,7 @@
   2、登录远程服务器
 
   ```
-  ssh -p 端口号 root#ip
+  ssh -p 端口号 root@ip
   ```
 
 3、git
