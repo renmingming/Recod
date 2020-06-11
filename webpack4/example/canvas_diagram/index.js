@@ -81,6 +81,7 @@
     }
 
     this.canvas.onmousemove = function (e) {
+      document.querySelector('body').style.cursor = '';
       debounce(function () {
         const xStart = _this.mouseStart.get('x'),
           yStart = _this.mouseStart.get('y');
@@ -100,6 +101,7 @@
             if (_this.ctx.isPointInPath(pos.x, pos.y)) {
               diagram.textColor = _this.activeTextColor;
               diagram.bgColor = _this.activeBgColor;
+              document.querySelector('body').style.cursor = 'pointer';
             } else {
               diagram.textColor = _this.textColor;
               diagram.bgColor = _this.bgColor;
@@ -117,6 +119,7 @@
             if (_this.ctx.isPointInPath(pos.x, pos.y)) {
               diagram.textColor = _this.activeTextColor;
               diagram.bgColor = _this.activeBgColor;
+              document.querySelector('body').style.cursor = 'pointer';
             } else {
               diagram.textColor = _this.textColor;
               diagram.bgColor = _this.bgColor;
