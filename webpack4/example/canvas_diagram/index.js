@@ -10,6 +10,8 @@
     activeBgColor: '#f39800',
     number: 35, // 一圈多少个，决定角度
     ajaxUrl: 'http://47.103.121.177/Knowledge/Search?keywords=',
+    centerHeight: 30,
+    centerWidth: 90,
     clickCallback: function() {
 
     }
@@ -39,6 +41,8 @@
     this.ajaxUrl = this.config.ajaxUrl;
     this.clickCallback = this.config.clickCallback;
     this.number = this.config.number;
+    this.centerWidth = this.config.centerWidth;
+    this.centerHeight = this.config.centerHeight;
     let _this = this;
     this.canvas.onclick = (e) => {
       if (new Date().getTime() - _this.touchtime > 500) {
@@ -200,7 +204,20 @@
     let ctx = this.ctx;
     let xLength = radius * Math.cos(angle);
     let yLength = radius * Math.sin(angle);
-    let addX = (this.rectWidth - text.length * 12) / 2;
+    let rectWidth = this.rectWidth;
+    let textLen = text.length;
+    let textWidth = (textLen + 2) * 12;
+    let addX = (rectWidth - textLen * 12) / 2;
+    let textArr = [];
+    let lineNum = 1;
+    if (textWidth > rectWidth) {
+      let rowLen = Math.ceil(rectWidth / 12) - 2;
+      lineNum = Math.ceil(textLen / rowLen);
+      addX = (rectWidth - rowLen * 12) / 2;
+      for (let i = 0; i < lineNum && lineNum > 1; i++) {
+        textArr.push(text.substr(i * rowLen, rowLen));
+      }
+    }
     let lineEndX = centerX + xLength + addX;
     let lineEndY = centerY - yLength;
     // 求两点中心点坐标
@@ -225,18 +242,25 @@
     ctx.fillStyle = bgColor;
     ctx.font = `10px/22px sans-serif`;
     ctx.fillText(typeVal, lineCenterX, lineCenterY + 3);
-
-    drawRoundedRect('#fff', bgColor, centerX + xLength, centerY - yLength - this.rectHeight / 2, this.rectWidth, this.rectHeight, 13, ctx);
-
+    let rectHeight = this.rectHeight * lineNum;
+    drawRoundedRect('#fff', bgColor, centerX + xLength, centerY - yLength - rectHeight / 2, this.rectWidth, rectHeight, 13, ctx);
 
     ctx.textAlign = 'left';
     ctx.fillStyle = textColor;
     ctx.font = `12px sans-serif`;
-    ctx.fillText(text, centerX + xLength + addX, centerY - yLength + 4);
+    if (textArr.length > 0) {
+      for (let i = 0; i < textArr.length; i++) {
+        ctx.fillText(textArr[i], centerX + xLength + addX, centerY - yLength - 4 + i * 16);
+      }
+    } else {
+      ctx.fillText(text, centerX + xLength + addX, centerY - yLength + 4);
+    }
   }
 
   createCanvas.prototype.centerTitle = function() {
-    drawRoundedRect(this.activeBgColor, this.activeBgColor, this.canvasCenterX - 45, this.canvasCenterY - 15, 90, 30, 14, this.ctx);
+    let centerW = this.centerWidth;
+    let centerH = this.centerHeight;
+    drawRoundedRect(this.activeBgColor, this.activeBgColor, this.canvasCenterX - centerW / 2, this.canvasCenterY - centerH / 2, centerW, centerH, 14, this.ctx);
     this.ctx.textAlign = 'center';
     this.ctx.fillStyle = '#fff';
     this.ctx.font = `bold 14px/30px sans-serif`;
