@@ -392,3 +392,13 @@ broken(null)
     test: string
   }
 ```
+
+25、特殊符号用法
+
+```
+1.属性或参数中使用？：表示属性或参数为可选项
+2.属性或参数总使用!: 表示强制解析，告诉typescript编译器，这里一定有值
+    const { resolved, rejected } = arr.shift()!
+    rejected在arr中是可选项，如果不加!就会报错
+3.变量后使用! ： 表示类型推断排除null、undefined
+```

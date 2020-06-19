@@ -637,6 +637,23 @@ clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 </script>
 ```
 
+46、上传、下载进度
+
+```javascript
+XMLHttpRequest // 提供了一个progress事件，监听改时间可获得当前数据下载进度
+XMLHttpRequest.upload  // 提供了progress事件，可获取当前数据上传的进度
+
+//axios插件中cofig中上传下载的属性是onDownloadProgress和onUploadProgress
+```
+
+47、获取协议、域名、端口号
+
+```javascript
+var a = document.createElement('a');
+a.setAttribute('href', 'http://meet.com')
+var { protocol, host, port } = a;
+```
+
 
 ## vue常遇问题
 
