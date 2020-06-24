@@ -654,6 +654,39 @@ a.setAttribute('href', 'http://meet.com')
 var { protocol, host, port } = a;
 ```
 
+48、简易版Promise
+
+```javascript
+class Promise{
+  constructor(func) {
+    this.callbacks = [];
+    this.state = 'pending';
+    this.value = null;
+    if (typeof func === 'function') {
+      func(this.resolve.bind(this))
+    }
+  }
+  then(callback) {
+    if (this.state == 'pending') {
+      this.callbacks.push(callback);
+    } else {
+      callback(this.value);
+    }
+  }
+  resolve(val) {
+    this.state = 'fulfilled';
+    this.value = val;
+    this.callbacks.forEach(func => func(val))
+  }
+}
+
+new Promise(resolve => {
+  resolve('返回值')
+}).then(res => {
+  console.log(res)
+})
+```
+
 
 ## vue常遇问题
 
