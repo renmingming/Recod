@@ -124,3 +124,23 @@ where u.user_type = :user_type and d.duration > 0 and d.created_at > :begin_at a
 ```
 create index user_id_currency_id_on_balances on balances(user_id,currency_id);
 ```
+
+12、添加、修改、删除字段
+```sql
+alter table invite_histories alter column third_id type varchar (255);
+alter table products add column payment_currency varchar(50);
+alter table users drop column real_person_status;
+create index payment_currency_on_products on products(payment_currency);
+```
+
+13、创建表
+
+```sql
+create table rooms(
+    id serial primary key not null,
+    city_id integer ,
+    manager_user_ids varchar (255),
+    face_attributes text,
+);
+```
+
