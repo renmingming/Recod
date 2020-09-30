@@ -154,6 +154,8 @@ tail -f development.log | grep 'online_status'
 14、输出到指定文件
 ```
 php cli.php async start >> log/async.log 
+// 后台进程
+./ssdb-server -d ssdb.conf
 ```
 
 15、liunx命令crontab定时任务
