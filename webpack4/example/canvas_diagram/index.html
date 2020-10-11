@@ -7,18 +7,18 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
-    *{margin: 0;padding:0}
+    *{margin: 0;padding:0;-webkit-tap-highlight-color:transparent;}
     li{display: inline-block;margin-right: 20px;}
   </style>
 </head>
 <body>
-<canvas id="canvas" width="700" height="600" style="border: solid 1px #dfdfdf;"></canvas>
+<canvas id="canvas" width="300" height="400" style="border: solid 1px #dfdfdf;"></canvas>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 
 </body>
 <script>
 var createCanvas = new createCanvas({
-  rectWidth: 80,
+  rectWidth: 60,
   rectHeight: 24,
   clickCallback:function(res) {
       console.log(res.text);

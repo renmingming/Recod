@@ -2,16 +2,18 @@
 (function() {
   const defaultConfig = {
     elId: 'canvas',
-    rectWidth: 80,
+    rectWidth: 60,
     rectHeight: 28,
     textColor: '#fff',
     activeTextColor: '#fff',
     bgColor: '#acb0bd',
     activeBgColor: '#f39800',
-    number: 35, // 一圈多少个，决定角度
+    number: 30, // 一圈多少个，决定角度
     ajaxUrl: 'http://47.103.121.177/Knowledge/Search?keywords=',
     centerHeight: 30,
     centerWidth: 90,
+    boxshowWidth: 8,
+    boxshowColor: 'rgba(243,152,0, 0.6)',
     clickCallback: function() {
 
     }
@@ -43,6 +45,8 @@
     this.number = this.config.number;
     this.centerWidth = this.config.centerWidth;
     this.centerHeight = this.config.centerHeight;
+    this.boxshowWidth = this.config.boxshowWidth;
+    this.boxshowColor = this.config.boxshowColor;
     let _this = this;
     this.canvas.onclick = (e) => {
       if (new Date().getTime() - _this.touchtime > 500) {
@@ -62,7 +66,15 @@
       }
     }
 
+    this.canvas.ontouchstart = function (e) {
+      downHandler(e.changedTouches[0]);
+    }
+
     this.canvas.onmousedown = function (e) {
+      downHandler(e);
+    }
+
+    function downHandler(e) {
       const pos = positionInCanvas(e, _this.canvasLeft, _this.canvasTop);
       _this.mouseStart.set('x', pos.x);
       _this.mouseStart.set('y', pos.y);
@@ -81,6 +93,14 @@
     }
 
     this.canvas.onmousemove = function (e) {
+      moveHanlde(e);
+    }
+
+    this.canvas.ontouchmove = function(e) {
+      moveHanlde(e.changedTouches[0]);
+    }
+
+    function moveHanlde(e) {
       document.querySelector('body').style.cursor = '';
       debounce(function () {
         const xStart = _this.mouseStart.get('x'),
@@ -131,6 +151,14 @@
     }
 
     this.canvas.onmouseup = function (e) {
+      endHanlder(e);
+    }
+
+    this.canvas.ontouchend = function(e) {
+      endHanlder(e.changedTouches[0]);
+    }
+
+    function endHanlder(e) {
       if (_this.draggingDiagram) {
         let pos = positionInCanvas(e, _this.canvasLeft, _this.canvasTop),
           offsetMap = new Map([
@@ -263,6 +291,9 @@
   createCanvas.prototype.centerTitle = function() {
     let centerW = this.centerWidth;
     let centerH = this.centerHeight;
+    let boxshowWidth = this.boxshowWidth;
+    drawRoundedRect(this.boxshowColor, this.boxshowColor, this.canvasCenterX - (centerW + boxshowWidth) / 2, this.canvasCenterY - (centerH + boxshowWidth) / 2, centerW + boxshowWidth, centerH + boxshowWidth, 14, this.ctx);
+
     drawRoundedRect(this.activeBgColor, this.activeBgColor, this.canvasCenterX - centerW / 2, this.canvasCenterY - centerH / 2, centerW, centerH, 14, this.ctx);
     this.ctx.textAlign = 'center';
     this.ctx.fillStyle = '#fff';
