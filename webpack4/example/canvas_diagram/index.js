@@ -2,6 +2,7 @@
 (function() {
   const defaultConfig = {
     elId: 'canvas',
+    elTip: '#tip',
     rectWidth: 60,
     rectHeight: 28,
     textColor: '#fff',
@@ -28,6 +29,7 @@
       ['x', null],
       ['y', null]
     ]);
+    this.elTip = this.config.elTip;
     this.textColor = this.config.textColor;
     this.bgColor = this.config.bgColor;
     this.activeTextColor = this.config.activeTextColor;
@@ -140,6 +142,8 @@
               diagram.textColor = _this.activeTextColor;
               diagram.bgColor = _this.activeBgColor;
               document.querySelector('body').style.cursor = 'pointer';
+              document.querySelector(_this.elTip).setAttribute('style', `left:${pos.x}px;top:${pos.y}px;position:absolute;`)
+              document.querySelector(_this.elTip).innerHTML = diagram.text;
             } else {
               diagram.textColor = _this.textColor;
               diagram.bgColor = _this.bgColor;
@@ -273,7 +277,8 @@
     ctx.fillStyle = bgColor;
     ctx.font = `10px/22px sans-serif`;
     ctx.fillText(typeVal, lineCenterX, lineCenterY + 3);
-    let rectHeight = this.rectHeight * lineNum;
+    let rectHeight = this.rectHeight * 1;
+    // let rectHeight = this.rectHeight * lineNum;
     drawRoundedRect('#fff', bgColor, centerX + xLength, centerY - yLength - rectHeight / 2, this.rectWidth, rectHeight, 13, ctx);
 
     ctx.textAlign = 'left';
@@ -281,7 +286,9 @@
     ctx.font = `12px sans-serif`;
     if (textArr.length > 0) {
       for (let i = 0; i < textArr.length; i++) {
-        ctx.fillText(textArr[i], centerX + xLength + addX, centerY - yLength - 4 + i * 16);
+        // ctx.fillText(textArr[i], centerX + xLength + addX, centerY - yLength - 4 + i * 16);
+        ctx.fillText(textArr[i], centerX + xLength + addX, centerY - yLength + 4);
+        return;
       }
     } else {
       ctx.fillText(text, centerX + xLength + addX, centerY - yLength + 4);
