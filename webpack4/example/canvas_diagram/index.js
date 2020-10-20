@@ -6,9 +6,11 @@
     rectWidth: 60,
     rectHeight: 28,
     textColor: '#fff',
+    textFontSize: '12',
     activeTextColor: '#fff',
     bgColor: '#acb0bd',
     activeBgColor: '#f39800',
+    radius: 2.5, // 值越小，距离中心点越近
     number: 30, // 一圈多少个，决定角度
     ajaxUrl: 'http://47.103.121.177/Knowledge/Search?keywords=',
     centerHeight: 30,
@@ -31,6 +33,8 @@
     ]);
     this.elTip = this.config.elTip;
     this.textColor = this.config.textColor;
+    this.textFontSize = this.config.textFontSize;
+    this.rectRadius = this.config.rectRadius;
     this.bgColor = this.config.bgColor;
     this.activeTextColor = this.config.activeTextColor;
     this.activeBgColor = this.config.activeBgColor;
@@ -39,6 +43,7 @@
     this.draggingDiagram = null; // 记录正在
     this.rectWidth = this.config.rectWidth;
     this.rectHeight = this.config.rectHeight;
+    this.radius = this.config.radius;
     this.touchtime = new Date().getTime();
     this.canvasCenterX = this.canvas.clientWidth / 2;
     this.canvasCenterY = this.canvas.clientHeight / 2;
@@ -205,10 +210,11 @@
   createCanvas.prototype.init = function(res) {
     let num = this.number;
     let unitAngle = Math.PI * 2 / num;
+    let centerNum = this.canvasCenterX < this.canvasCenterY ? this.canvasCenterX : this.canvasCenterY;
     let angle = -0.4, // 初始角度
-      radius = this.canvasCenterY * 0.66;
+      radius = centerNum * 0.66;
     for (let i = 0; i < res.length; i++) {
-      radius += 2.5;
+      radius += this.radius;
       if (i >= 7) {
         unitAngle = Math.PI * 2 / (num * 0.857);
       }
@@ -241,14 +247,14 @@
     let yLength = radius * Math.sin(angle);
     let rectWidth = this.rectWidth;
     let textLen = text.length;
-    let textWidth = (textLen + 2) * 12;
-    let addX = (rectWidth - textLen * 12) / 2;
+    let textWidth = (textLen + 2) * this.textFontSize;
+    let addX = (rectWidth - textLen * this.textFontSize) / 2;
     let textArr = [];
     let lineNum = 1;
     if (textWidth > rectWidth) {
-      let rowLen = Math.ceil(rectWidth / 12) - 2;
+      let rowLen = Math.ceil(rectWidth / this.textFontSize) - 2;
       lineNum = Math.ceil(textLen / rowLen);
-      addX = (rectWidth - rowLen * 12) / 2;
+      addX = (rectWidth - rowLen * this.textFontSize) / 2;
       for (let i = 0; i < lineNum && lineNum > 1; i++) {
         textArr.push(text.substr(i * rowLen, rowLen));
       }
@@ -283,7 +289,7 @@
 
     ctx.textAlign = 'left';
     ctx.fillStyle = textColor;
-    ctx.font = `12px sans-serif`;
+    ctx.font = `${this.textFontSize}px sans-serif`;
     if (textArr.length > 0) {
       for (let i = 0; i < textArr.length; i++) {
         // ctx.fillText(textArr[i], centerX + xLength + addX, centerY - yLength - 4 + i * 16);
