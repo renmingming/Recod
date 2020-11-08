@@ -1,6 +1,8 @@
 
 (function() {
   const defaultConfig = {
+    width: 700,
+    height: 500,
     elId: 'canvas',
     elTip: '#tip',
     rectWidth: 60,
@@ -21,39 +23,51 @@
 
     }
   };
+
   function createCanvas(params) {
     this.config = _getConfig(params);
     this.canvas = document.getElementById(this.config.elId);
     this.canvasLeft = this.canvas.getBoundingClientRect().left;
     this.canvasTop = this.canvas.getBoundingClientRect().top;
     this.ctx = this.canvas.getContext('2d');
+    let devicePixelRatio = window.devicePixelRatio || 1
+    let backingStoreRatio = this.ctx.webkitBackingStorePixelRatio ||
+    this.ctx.mozBackingStorePixelRatio ||
+    this.ctx.msBackingStorePixelRatio ||
+    this.ctx.oBackingStorePixelRatio ||
+        this.ctx.backingStorePixelRatio || 1
+    let ratio = devicePixelRatio / backingStoreRatio;
+    console.log(ratio)
+    this.canvas.width = this.config.width * ratio;
+    this.canvas.height = this.config.height * ratio;
     this.mouseStart = new Map([
       ['x', null],
       ['y', null]
     ]);
     this.elTip = this.config.elTip;
     this.textColor = this.config.textColor;
-    this.textFontSize = this.config.textFontSize;
-    this.rectRadius = this.config.rectRadius;
+    this.textFontSize = this.config.textFontSize * ratio;
+    this.rectRadius = this.config.rectRadius * ratio;
     this.bgColor = this.config.bgColor;
     this.activeTextColor = this.config.activeTextColor;
     this.activeBgColor = this.config.activeBgColor;
     this.centerTitleText = '';
     this.diagramArray = []; // 路径数组
     this.draggingDiagram = null; // 记录正在
-    this.rectWidth = this.config.rectWidth;
-    this.rectHeight = this.config.rectHeight;
-    this.radius = this.config.radius;
+    this.rectWidth = this.config.rectWidth * ratio;
+    this.rectHeight = this.config.rectHeight * ratio;
+    this.radius = this.config.radius * ratio;
     this.touchtime = new Date().getTime();
     this.canvasCenterX = this.canvas.clientWidth / 2;
     this.canvasCenterY = this.canvas.clientHeight / 2;
     this.ajaxUrl = this.config.ajaxUrl;
     this.clickCallback = this.config.clickCallback;
     this.number = this.config.number;
-    this.centerWidth = this.config.centerWidth;
-    this.centerHeight = this.config.centerHeight;
+    this.centerWidth = this.config.centerWidth * ratio;
+    this.centerHeight = this.config.centerHeight * ratio;
     this.boxshowWidth = this.config.boxshowWidth;
     this.boxshowColor = this.config.boxshowColor;
+    this.ratio = ratio;
     let _this = this;
     this.canvas.onclick = (e) => {
       if (new Date().getTime() - _this.touchtime > 500) {
@@ -141,13 +155,14 @@
         } else {
           let pos = positionInCanvas(e, _this.canvasLeft, _this.canvasTop);
           _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
+          document.querySelector(_this.elTip).setAttribute('style', `display:none;`)
           for (let diagram of _this.diagramArray) {
             diagram.createPath();
             if (_this.ctx.isPointInPath(pos.x, pos.y)) {
               diagram.textColor = _this.activeTextColor;
               diagram.bgColor = _this.activeBgColor;
               document.querySelector('body').style.cursor = 'pointer';
-              document.querySelector(_this.elTip).setAttribute('style', `left:${pos.x}px;top:${pos.y}px;position:absolute;`)
+              document.querySelector(_this.elTip).setAttribute('style', `display:block;left:${pos.x}px;top:${pos.y}px;position:absolute;`)
               document.querySelector(_this.elTip).innerHTML = diagram.text;
             } else {
               diagram.textColor = _this.textColor;
@@ -264,7 +279,8 @@
     // 求两点中心点坐标
     let lineCenterX = (lineEndX - this.canvasCenterX) / 2 + this.canvasCenterX;
     let lineCenterY = (lineEndY - this.canvasCenterY) / 2 + this.canvasCenterY;
-
+    let ratio = this.ratio;
+    let arc_width = 10 * ratio;
     ctx.beginPath();
     ctx.moveTo(this.canvasCenterX, this.canvasCenterY);
     ctx.lineTo(lineEndX, lineEndY);
@@ -273,7 +289,7 @@
     ctx.closePath();
 
     ctx.beginPath();
-    ctx.arc(lineCenterX, lineCenterY, 10, 0, Math.PI * 2);
+    ctx.arc(lineCenterX, lineCenterY, arc_width, 0, Math.PI * 2);
     ctx.fillStyle = '#fff';
     ctx.closePath();
     ctx.stroke();
@@ -281,8 +297,8 @@
 
     ctx.textAlign = 'center';
     ctx.fillStyle = bgColor;
-    ctx.font = `10px/22px sans-serif`;
-    ctx.fillText(typeVal, lineCenterX, lineCenterY + 3);
+    ctx.font = `${10 * ratio}px sans-serif`;
+    ctx.fillText(typeVal, lineCenterX, lineCenterY + 3 * ratio);
     let rectHeight = this.rectHeight * 1;
     // let rectHeight = this.rectHeight * lineNum;
     drawRoundedRect('#fff', bgColor, centerX + xLength, centerY - yLength - rectHeight / 2, this.rectWidth, rectHeight, 13, ctx);
@@ -293,11 +309,11 @@
     if (textArr.length > 0) {
       for (let i = 0; i < textArr.length; i++) {
         // ctx.fillText(textArr[i], centerX + xLength + addX, centerY - yLength - 4 + i * 16);
-        ctx.fillText(textArr[i], centerX + xLength + addX, centerY - yLength + 4);
+        ctx.fillText(textArr[i], centerX + xLength + addX, centerY - yLength + 4 * ratio);
         return;
       }
     } else {
-      ctx.fillText(text, centerX + xLength + addX, centerY - yLength + 4);
+      ctx.fillText(text, centerX + xLength + addX, centerY - yLength + 4 * ratio);
     }
   }
 
@@ -305,13 +321,15 @@
     let centerW = this.centerWidth;
     let centerH = this.centerHeight;
     let boxshowWidth = this.boxshowWidth;
+    let ratio = this.ratio;
     drawRoundedRect(this.boxshowColor, this.boxshowColor, this.canvasCenterX - (centerW + boxshowWidth) / 2, this.canvasCenterY - (centerH + boxshowWidth) / 2, centerW + boxshowWidth, centerH + boxshowWidth, 14, this.ctx);
 
     drawRoundedRect(this.activeBgColor, this.activeBgColor, this.canvasCenterX - centerW / 2, this.canvasCenterY - centerH / 2, centerW, centerH, 14, this.ctx);
     this.ctx.textAlign = 'center';
     this.ctx.fillStyle = '#fff';
-    this.ctx.font = `bold 14px/30px sans-serif`;
-    this.ctx.fillText(this.centerTitleText, this.canvasCenterX, this.canvasCenterY + 5);
+    this.ctx.font = `bold ${14 * ratio}px sans-serif`;
+    console.log(this.ctx.font)
+    this.ctx.fillText(this.centerTitleText, this.canvasCenterX, this.canvasCenterY + (10 * ratio / 2));
   }
 
 

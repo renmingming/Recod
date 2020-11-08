@@ -15,7 +15,7 @@
   </style>
 </head>
 <body>
-<canvas id="canvas" width="300" height="400" style="border: solid 1px #dfdfdf;"></canvas>
+<canvas id="canvas" width="500" height="500" style="border: solid 1px #dfdfdf;"></canvas>
 <div id="tip"></div>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 
@@ -24,6 +24,8 @@
 var createCanvas = new createCanvas({
   rectWidth: 60,
   rectHeight: 24,
+  width: 500,
+  height: 500,
   clickCallback:function(res) {
       console.log(res.text);
   }
