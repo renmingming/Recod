@@ -37,6 +37,9 @@
     this.ctx.oBackingStorePixelRatio ||
         this.ctx.backingStorePixelRatio || 1
     let ratio = devicePixelRatio / backingStoreRatio;
+    if (this.config.width > 400) {
+      ratio = 1;
+    }
     console.log(ratio)
     this.canvas.width = this.config.width * ratio;
     this.canvas.height = this.config.height * ratio;
@@ -68,6 +71,7 @@
     this.boxshowWidth = this.config.boxshowWidth;
     this.boxshowColor = this.config.boxshowColor;
     this.ratio = ratio;
+    this.ctx.scale(1/ ratio, 1/ ratio);
     let _this = this;
     this.canvas.onclick = (e) => {
       if (new Date().getTime() - _this.touchtime > 500) {
@@ -134,6 +138,7 @@
             ]);
           let tempCenterX = _this.draggingDiagram.centerX,
             tempCenterY = _this.draggingDiagram.centerY;
+            console.log(diff.get('offsetX'),diff.get('offsetY'))
           _this.draggingDiagram.centerX += diff.get('offsetX');
           _this.draggingDiagram.centerY += diff.get('offsetY');
           _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
@@ -162,7 +167,7 @@
               diagram.textColor = _this.activeTextColor;
               diagram.bgColor = _this.activeBgColor;
               document.querySelector('body').style.cursor = 'pointer';
-              document.querySelector(_this.elTip).setAttribute('style', `display:block;left:${pos.x}px;top:${pos.y}px;position:absolute;`)
+              document.querySelector(_this.elTip).setAttribute('style', `display:block;left:${pos.x + 10}px;top:${pos.y + 10}px;position:absolute;`)
               document.querySelector(_this.elTip).innerHTML = diagram.text;
             } else {
               diagram.textColor = _this.textColor;
@@ -328,7 +333,6 @@
     this.ctx.textAlign = 'center';
     this.ctx.fillStyle = '#fff';
     this.ctx.font = `bold ${14 * ratio}px sans-serif`;
-    console.log(this.ctx.font)
     this.ctx.fillText(this.centerTitleText, this.canvasCenterX, this.canvasCenterY + (10 * ratio / 2));
   }
 
