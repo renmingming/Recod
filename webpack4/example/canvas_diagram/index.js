@@ -4,7 +4,7 @@
     width: 700,
     height: 500,
     elId: 'canvas',
-    elTip: '#tip',
+    elTip: '',
     rectWidth: 60,
     rectHeight: 28,
     textColor: '#fff',
@@ -138,7 +138,6 @@
             ]);
           let tempCenterX = _this.draggingDiagram.centerX,
             tempCenterY = _this.draggingDiagram.centerY;
-            console.log(diff.get('offsetX'),diff.get('offsetY'))
           _this.draggingDiagram.centerX += diff.get('offsetX');
           _this.draggingDiagram.centerY += diff.get('offsetY');
           _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
@@ -152,6 +151,7 @@
               diagram.textColor = _this.textColor;
               diagram.bgColor = _this.bgColor;
             }
+            _this.draggingDiagram.createPath();
             // drawDiagramPath(diagram.centerX, diagram.centerY, diagram.radius, ctx, diagram.angle, diagram.text, diagram.typeVal, '#fff', 'green')
           }
           _this.draggingDiagram.centerX = tempCenterX;
@@ -160,15 +160,19 @@
         } else {
           let pos = positionInCanvas(e, _this.canvasLeft, _this.canvasTop);
           _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
-          document.querySelector(_this.elTip).setAttribute('style', `display:none;`)
+          if (_this.elTip) {
+            document.querySelector(_this.elTip).setAttribute('style', `display:none;`)
+          }
           for (let diagram of _this.diagramArray) {
             diagram.createPath();
             if (_this.ctx.isPointInPath(pos.x, pos.y)) {
               diagram.textColor = _this.activeTextColor;
               diagram.bgColor = _this.activeBgColor;
               document.querySelector('body').style.cursor = 'pointer';
-              document.querySelector(_this.elTip).setAttribute('style', `display:block;left:${pos.x + 10}px;top:${pos.y + 10}px;position:absolute;`)
-              document.querySelector(_this.elTip).innerHTML = diagram.text;
+              if (_this.elTip) {
+                document.querySelector(_this.elTip).setAttribute('style', `display:block;left:${pos.x + 10}px;top:${pos.y + 10}px;position:absolute;`)
+                document.querySelector(_this.elTip).innerHTML = diagram.text;
+              }
             } else {
               diagram.textColor = _this.textColor;
               diagram.bgColor = _this.bgColor;
@@ -196,6 +200,7 @@
           ]);
         _this.draggingDiagram.centerX += offsetMap.get('offsetX');
         _this.draggingDiagram.centerY += offsetMap.get('offsetY');
+        _this.draggingDiagram.createPath();
         _this.draggingDiagram.textColor = _this.textColor;
         _this.draggingDiagram.bgColor = _this.bgColor;
         _this.draggingDiagram = null;
@@ -327,13 +332,27 @@
     let centerH = this.centerHeight;
     let boxshowWidth = this.boxshowWidth;
     let ratio = this.ratio;
+    let text = this.centerTitleText;
+    let textLen = text.length;
+    let textFontSize = 14 * ratio;
+    let textWidth = (textLen + 2) * textFontSize;
+    let lineNum = 1;
+    let textArr = [];
+    if (textWidth > centerW) {
+      let rowLen = Math.ceil(centerW / textFontSize) - 2;
+      lineNum = Math.ceil(textLen / rowLen);
+      for (let i = 0; i < lineNum && lineNum > 1; i++) {
+        textArr.push(text.substr(i * rowLen, rowLen));
+      }
+      text = textArr[0];
+    }
     drawRoundedRect(this.boxshowColor, this.boxshowColor, this.canvasCenterX - (centerW + boxshowWidth) / 2, this.canvasCenterY - (centerH + boxshowWidth) / 2, centerW + boxshowWidth, centerH + boxshowWidth, 14, this.ctx);
 
     drawRoundedRect(this.activeBgColor, this.activeBgColor, this.canvasCenterX - centerW / 2, this.canvasCenterY - centerH / 2, centerW, centerH, 14, this.ctx);
     this.ctx.textAlign = 'center';
     this.ctx.fillStyle = '#fff';
     this.ctx.font = `bold ${14 * ratio}px sans-serif`;
-    this.ctx.fillText(this.centerTitleText, this.canvasCenterX, this.canvasCenterY + (10 * ratio / 2));
+    this.ctx.fillText(text, this.canvasCenterX, this.canvasCenterY + (10 * ratio / 2));
   }
 
 
