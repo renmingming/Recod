@@ -40,7 +40,6 @@
     if (this.config.width > 400) {
       ratio = 1;
     }
-    console.log(ratio)
     this.canvas.width = this.config.width * ratio;
     this.canvas.height = this.config.height * ratio;
     this.mouseStart = new Map([
@@ -203,7 +202,16 @@
         _this.draggingDiagram.createPath();
         _this.draggingDiagram.textColor = _this.textColor;
         _this.draggingDiagram.bgColor = _this.bgColor;
-        _this.draggingDiagram = null;
+        let diagramArray = _this.diagramArray;
+        for(let i = 0; i < diagramArray.length; i++) {
+          if (_this.draggingDiagram.text == diagramArray[i].text) {
+            diagramArray.slice(i, 1);
+            diagramArray.push(diagramArray[i]);
+            _this.diagramArray = diagramArray;
+            _this.draggingDiagram = null;
+            return;
+          }
+        }
       }
     }
   }
