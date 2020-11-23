@@ -18,6 +18,8 @@
     centerHeight: 30,
     centerWidth: 90,
     boxshowWidth: 8,
+    offsetX: 0,
+    offsetY: 0,
     boxshowColor: 'rgba(243,152,0, 0.6)',
     clickCallback: function() {
 
@@ -69,8 +71,11 @@
     this.centerHeight = this.config.centerHeight * ratio;
     this.boxshowWidth = this.config.boxshowWidth;
     this.boxshowColor = this.config.boxshowColor;
+    this.offsetX = this.config.offsetX;
+    this.offsetY = this.config.offsetY;
     this.ratio = ratio;
     this.ctx.scale(1/ ratio, 1/ ratio);
+    this.ctx.translate(this.offsetX, this.offsetY);
     let _this = this;
     this.canvas.onclick = (e) => {
       if (new Date().getTime() - _this.touchtime > 500) {
