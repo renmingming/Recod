@@ -90,7 +90,8 @@
           let keyword = diagram.text;
           _this.diagramArray = [];
           _this.updateData(keyword);
-          _this.clickCallback(diagram)
+          _this.clickCallback(diagram);
+          return;
         }
       }
     }
@@ -241,7 +242,6 @@
     let _this = this;
     this.centerTitleText = keyword;
     $.get(this.ajaxUrl + keyword, function (res) {
-      _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
       _this.init(res);
     })
   }
@@ -251,6 +251,7 @@
     let centerNum = this.canvasCenterX < this.canvasCenterY ? this.canvasCenterX : this.canvasCenterY;
     let angle = -0.4, // 初始角度
       radius = centerNum * 0.66;
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (let i = 0; i < res.length; i++) {
       radius += this.radius;
       if (i >= 7) {
