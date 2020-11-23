@@ -40,7 +40,7 @@
         this.ctx.backingStorePixelRatio || 1
     let ratio = devicePixelRatio / backingStoreRatio;
     if (this.config.width > 400) {
-      ratio = 1;
+      // ratio = 1;
     }
     this.canvas.width = this.config.width * ratio;
     this.canvas.height = this.config.height * ratio;
@@ -83,7 +83,7 @@
         return;
       }
       const pos = positionInCanvas(e, _this.canvasLeft, _this.canvasTop);
-      _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
+      _this.clearCanvas();
       for (let diagram of _this.diagramArray) {
         diagram.createPath();
         if (_this.ctx.isPointInPath(pos.x, pos.y)) {
@@ -108,7 +108,7 @@
       const pos = positionInCanvas(e, _this.canvasLeft, _this.canvasTop);
       _this.mouseStart.set('x', pos.x);
       _this.mouseStart.set('y', pos.y);
-      _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
+      _this.clearCanvas();
       for (let diagram of _this.diagramArray) {
         diagram.createPath();
         const xStart = _this.mouseStart.get('x'),
@@ -145,7 +145,7 @@
             tempCenterY = _this.draggingDiagram.centerY;
           _this.draggingDiagram.centerX += diff.get('offsetX');
           _this.draggingDiagram.centerY += diff.get('offsetY');
-          _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
+          _this.clearCanvas();
           for (let diagram of _this.diagramArray) {
             diagram.createPath();
             if (_this.ctx.isPointInPath(pos.x, pos.y)) {
@@ -164,7 +164,7 @@
           _this.centerTitle();
         } else {
           let pos = positionInCanvas(e, _this.canvasLeft, _this.canvasTop);
-          _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
+          _this.clearCanvas();
           if (_this.elTip) {
             document.querySelector(_this.elTip).setAttribute('style', `display:none;`)
           }
@@ -245,13 +245,23 @@
       _this.init(res);
     })
   }
+  createCanvas.prototype.clearCanvas = function() {
+    this.canvas.width = 0;
+    this.canvas.height = 0;
+    this.canvas.width = this.config.width * this.ratio;
+    this.canvas.height = this.config.height * this.ratio;
+    
+    this.ctx.scale(1/ this.ratio, 1/ this.ratio);
+    this.ctx.translate(this.offsetX, this.offsetY);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
   createCanvas.prototype.init = function(res) {
     let num = this.number;
     let unitAngle = Math.PI * 2 / num;
     let centerNum = this.canvasCenterX < this.canvasCenterY ? this.canvasCenterX : this.canvasCenterY;
     let angle = -0.4, // 初始角度
       radius = centerNum * 0.66;
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.clearCanvas();
     for (let i = 0; i < res.length; i++) {
       radius += this.radius;
       if (i >= 7) {
