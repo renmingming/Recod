@@ -687,6 +687,20 @@ new Promise(resolve => {
 })
 ```
 
+49、canvas清楚画布问题
+
+```
+// cavnas画布在经过是用scale等方法后、画布清楚不干净使用下面可行：
+this.canvas.width = 0;
+    this.canvas.height = 0;
+    this.canvas.width = this.config.width * this.ratio;
+    this.canvas.height = this.config.height * this.ratio;
+    
+    this.ctx.scale(1/ this.ratio, 1/ this.ratio);
+    this.ctx.translate(this.offsetX, this.offsetY);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+```
+
 
 ## vue常遇问题
 
