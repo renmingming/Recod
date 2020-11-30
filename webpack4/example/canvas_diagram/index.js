@@ -148,7 +148,7 @@
           _this.clearCanvas();
           for (let diagram of _this.diagramArray) {
             diagram.createPath();
-            if (_this.ctx.isPointInPath(pos.x, pos.y)) {
+            if (_this.ctx.isPointInPath(pos.x, pos.y) && _this.draggingDiagram.text == diagram.text) {
               diagram.textColor = _this.activeTextColor;
               diagram.bgColor = _this.activeBgColor;
               document.querySelector('body').style.cursor = 'pointer';
@@ -185,7 +185,7 @@
           }
           _this.centerTitle();
         }
-      }, 100)()
+      }, 50)()
     }
 
     this.canvas.onmouseup = function (e) {
