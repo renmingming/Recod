@@ -319,12 +319,14 @@
     ctx.moveTo(this.canvasCenterX, this.canvasCenterY);
     ctx.lineTo(lineEndX, lineEndY);
     ctx.strokeStyle = bgColor;
+    ctx.lineWidth= 1 * ratio;
     ctx.stroke();
     ctx.closePath();
 
     ctx.beginPath();
     ctx.arc(lineCenterX, lineCenterY, arc_width, 0, Math.PI * 2);
     ctx.fillStyle = '#fff';
+    ctx.lineWidth= 1 * ratio;
     ctx.closePath();
     ctx.stroke();
     ctx.fill();
