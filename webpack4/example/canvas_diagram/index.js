@@ -109,14 +109,16 @@
       _this.mouseStart.set('x', pos.x);
       _this.mouseStart.set('y', pos.y);
       _this.clearCanvas();
+      let is_select = false;
       for (let diagram of _this.diagramArray) {
         diagram.createPath();
         const xStart = _this.mouseStart.get('x'),
           yStart = _this.mouseStart.get('y');
-        if (_this.ctx.isPointInPath(xStart, yStart)) {
+        if (_this.ctx.isPointInPath(xStart, yStart) && !is_select) {
           diagram.textColor = _this.activeTextColor;
           diagram.bgColor = _this.activeBgColor;
           _this.draggingDiagram = diagram;
+          is_select = true;
         }
       }
       _this.centerTitle();
@@ -168,9 +170,10 @@
           if (_this.elTip) {
             document.querySelector(_this.elTip).setAttribute('style', `display:none;`)
           }
+          let is_select = false;
           for (let diagram of _this.diagramArray) {
             diagram.createPath();
-            if (_this.ctx.isPointInPath(pos.x, pos.y)) {
+            if (_this.ctx.isPointInPath(pos.x, pos.y) && !is_select) {
               diagram.textColor = _this.activeTextColor;
               diagram.bgColor = _this.activeBgColor;
               document.querySelector('body').style.cursor = 'pointer';
@@ -178,6 +181,7 @@
                 document.querySelector(_this.elTip).setAttribute('style', `display:block;left:${pos.x + 10}px;top:${pos.y + 10}px;position:absolute;`)
                 document.querySelector(_this.elTip).innerHTML = diagram.text;
               }
+              is_select = true;
             } else {
               diagram.textColor = _this.textColor;
               diagram.bgColor = _this.bgColor;
