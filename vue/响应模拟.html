@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+  <input type="text" v-model="count">
+  <input type="button" value="增加" @click="add">
+  <input type="button" value="减少" @click="reduce">
+  <div v-bind="count"></div>
+</div>
+<script>
+function observer(obj) {
+  Object.keys(obj).forEach(item => {
+    definereactive(obj, item, obj[item]);
+  })
+}
+function definereactive(obj, key, val) {
+  Object.defineProperty(obj, key, {
+    get: function() {
+      console.log('查看值：' + val);
+      return val;
+    },
+    set: function (newVal) {
+      if (newVal === val) return;
+      val = newVal;
+      console.log('设置值：' + val);
+    }
+  })
+}
+var person = {
+  name: 'person',
+  age: 12,
+  arr: ['renming', 'mingming']
+};
+observer(person);
+// person.name = 'ming';
+
+
+class Vue{
+  constructor(options) {
+    this.$el = document.querySelector(options.el);
+    this.$methods = options.methods;
+    this._binding = {};
+    this._observer(options.data);
+    this._compile(this.$el);
+  }
+  _pushWatcher(watcher) {
+    if (!this._binding[watcher.key]) {
+      this._binding[watcher.key] = [];
+    }
+    this._binding[watcher.key].push(watcher);
+  }
+  _observer(datas) {
+    const me = this;
+    const handler = {
+      set(target, key, value) {
+        const rets = Reflect.set(target, key, value);
+        me._binding[key].map(item => {
+          item.update();
+        });
+        return rets;
+      }
+    }
+    this.$data = new Proxy(datas, handler);
+  }
+  _compile(root) {
+    const nodes = Array.prototype.slice.call(root.children);
+    const data = this.$data;
+    nodes.map(node => {
+      if (node.children && node.children.length) {
+        this._compile(node.children);
+      }
+      const $input = node.tagName.toLocaleUpperCase() === 'INPUT';
+      const $textarea = node.tagName.toLocaleUpperCase() === 'TEXTAREA';
+      const $vModel = node.hasAttribute('v-model');
+      if ($vModel && ($input || $textarea)) {
+        const key = node.getAttribute('v-model');
+        this._pushWatcher(new Watcher(node, 'value', data, key));
+        node.addEventListener('input', () => {
+          data[key] = node.value;
+        })
+      }
+      if (node.hasAttribute('v-bind')) {
+        const key = node.getAttribute('v-bind');
+        this._pushWatcher(new Watcher(node, 'innerHTML', data, key));
+      }
+      if (node.hasAttribute('@click')) {
+        const methodName = node.getAttribute('@click');
+        const method = this.$methods[methodName].bind(data);
+        node.addEventListener('click', method);
+      }
+    })
+  }
+}
+class Watcher {
+  constructor(node, attr, data, key) {
+    this.node = node;
+    this.attr = attr;
+    this.data = data;
+    this.key = key;
+  }
+  update() {
+    this.node[this.attr] = this.data[this.key];
+  }
+}
+</script>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    count:0
+  },
+  methods: {
+    add() {
+      this.count++;
+    },
+    reduce() {
+      this.count--;
+    }
+  }
+})
+</script>
+</body>
+</html>
