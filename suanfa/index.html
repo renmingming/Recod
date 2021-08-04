@@ -1,0 +1,270 @@
+<!--
+ * @Descripttion: 
+ * @Author: renmingming
+ * @Date: 2021-07-31 10:29:50
+ * @LastEditors: renmingming
+ * @LastEditTime: 2021-08-04 15:01:33
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const arr = [2, 3, 4, 6, 8, 11, 15, 16, 19, 22, 26]
+
+    function search(arr, val) {
+      const len = arr.length
+      let minIndex = 0
+      let maxIndex = len - 1
+      while (minIndex <= maxIndex) {
+        let midIndex = Math.floor((minIndex + maxIndex) / 2)
+        let mid = arr[midIndex]
+        if (mid === val) {
+          return midIndex
+        }
+        if (mid > val) maxIndex = midIndex - 1
+        if (mid < val) minIndex = midIndex + 1
+      }
+      return -1
+    }
+
+    function binarySearch(arr, minIndex, maxIndex, val) {
+      if (minIndex > maxIndex) return -1
+      const len = arr.length
+      let midIndex = Math.floor((minIndex + maxIndex) / 2)
+      let mid = arr[midIndex]
+      if (mid === val) {
+        return midIndex
+      }
+      if (mid > val) {
+        maxIndex = midIndex - 1
+        return binarySearch(arr, minIndex, maxIndex, val)
+      }
+      if (mid < val) {
+        minIndex = midIndex + 1
+        return binarySearch(arr, minIndex, maxIndex, val)
+      }
+    }
+    // console.log(binarySearch(arr, 0,( arr.length - 1), 11))
+    function isBadVersion(v) {
+      return v >= 2
+    }
+    var solution = function (n) {
+      let minV = 1
+      let maxV = n
+      while (minV < maxV) {
+        let midV = parseInt((maxV + minV) / 2)
+        if (isBadVersion(midV)) {
+          maxV = midV
+        } else {
+          minV = midV + 1
+        }
+      }
+      return minV
+    };
+
+    function searchOrInsert(nums, target) {
+    let minIndex = 0;
+    let maxIndex = nums.length - 1;
+    while(minIndex <= maxIndex) {
+      let midIndex = parseInt((minIndex + maxIndex) / 2)
+      let mid = nums[midIndex]
+      if (mid > target) {
+        maxIndex = midIndex - 1
+      } else if (mid < target) {
+        minIndex = midIndex + 1
+      }
+    }
+    return minIndex;
+  }
+    // console.log(searchOrInsert([1,3,5,6], 7))
+    const arrNumber = [-5, -4, -2, 1, 6]
+    function sortedSquares (arr) {
+      let result = []
+      let i = 0;
+      let j = arr.length - 1
+      while(i <= j) {
+        const left = Math.abs(arr[i])
+        const right = Math.abs(arr[j])
+        if (right > left) {
+          result.unshift(right * right)
+          j--;
+        } else {
+          result.unshift(left * left)
+          i++;
+        }
+        console.log(result)
+      }
+      return result
+    }
+    function sortedSquares2(nums) {
+      let result = nums.map(item => {
+        return item * item
+      })
+      return result.sort(function(a,b) {
+        return a-b
+      })
+    }
+    function rotate(nums, k) {
+      let start = 0;
+      let end = k;
+      let len = nums.length - 1
+      while(start < end) {
+        const lastV = nums[len]
+        nums.pop(lastV)
+        nums.unshift(lastV)
+        start++
+      }
+      return nums
+    }
+    function rotate2(nums, k) {
+      let len = nums.length
+      k = k % len
+      let count = 0;
+      for (let i = 0; count<len;i++) {
+        let cur = i;
+        let pre = nums[cur]
+        do {
+          let next = (cur + k) % len
+          let temp = nums[next]
+          nums[next] = pre
+          pre = temp
+          cur = next
+          count++;
+        } while(i != cur)
+      }
+      return nums
+    }
+    function rotate3(nums, k) {
+      let len = nums.length
+      let count = 0
+      k = k % len
+      for (let i = 0; count < len; i++) {
+        let cur = i; // 当前交换索引
+        let pre = nums[cur] // 交换值
+        do {
+          let next = (cur + k) % len // 交换到的索引位置
+          let temp = nums[next] // 交换被替换的值
+          nums[next] = pre // 替换
+          pre = next // 交换值变更为已被替换的值
+          cur = next // 当前交换索引为已被替换的索引位置
+          count++
+        } while(i !== cur)
+      }
+    }
+    function rotate4(nums, k) {
+      const len = nums.length;
+      const newArr = []
+      for (let i = 0; i < len; i++) {
+        newArr[(i+k)%len] = nums[i]
+      }
+      return newArr
+    }
+    var rotate5 = function(nums, k) {
+        const len = nums.length
+        const newArr = []
+        for (let i = 0; i < len; i++) {
+            newArr[(i+k)%len] = nums[i]
+        }
+        return newArr
+    };
+    // console.log(rotate5(arrNumber, 2))
+    function moveZeroes(nums) {
+      let len = nums.length
+      let left = 0
+      let right = 0;
+      while(right < len) {
+        if (nums[right] !== 0) {
+          if (left < right) {
+            let temp = nums[left]
+            nums[left] = nums[right]
+            nums[right] = temp
+          }
+          
+          left++
+        }
+        right++
+      }
+      return nums
+    }
+    // console.log(moveZeroes([1,3,0,2,0,34,0,321]))
+    function twoSum(nums, target) {
+      let right = nums.length - 1;
+      let left = 0;
+      while(left < nums.length) {
+        let sum = nums[left] + nums[right]
+        if (sum > target) {
+          right--;
+        } else if (sum < target) {
+          left++;
+        } else {
+          return [left, right]
+        }
+      }
+      return null
+    }
+    // console.log(twoSum([1, 2,3,6,8,32,121], 40))
+
+    function reverseString(s) {
+      let left = 0;
+      let right = s.length - 1
+      while (left < right) {
+        let temp = s[left]
+        s[left] = s[right]
+        s[right] = temp
+        left++
+        right--
+      }
+      return s
+    }
+    // console.log(reverseString(['r', 'e','n','m','i','n','g']))
+    function reverseWord(s) {
+      let len = s.length
+      let i = 0;
+      let str = '';
+      while (i < len) {
+        let start = i;
+        while(i < len && s.charAt(i) !== ' ') {
+          i++
+        }
+        for (let n = i-1; n >= start; n--) {
+          str += s.charAt(n)
+        }
+        while(i < len && s.charAt(i) === ' ') {
+          str += ' '
+          i++
+        }
+      }
+      return str
+    }
+    // console.log(reverseWord('i name is renmingming'))
+    /**
+    * Definition for singly-linked list.
+    * function ListNode(val, next) {
+    *     this.val = (val===undefined ? 0 : val)
+    *     this.next = (next===undefined ? null : next)
+    * }
+    */
+    /**
+    * @param {ListNode} head
+    * @return {ListNode}
+    */
+    var middleNode = function(head) {
+      let fast = slow = head
+      while(fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+      }
+      return slow
+    };
+  </script>
+</body>
+
+</html>
